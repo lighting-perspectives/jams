@@ -1,4 +1,4 @@
 # jams
 JAMS - Just Another Music Studio
 
-We are the champions
+Web app for online easy & simple collaborative music.
