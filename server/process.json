@@ -1,0 +1,14 @@
+{
+  "apps" : [{
+    "name"        : "jams",
+    "out_file"    : "/home/node/.pm2/logs/server.log",
+    "error_file"  : "/home/node/.pm2/logs/error.log",
+    "log_date_format" : "MM/DD/YYYY HH:mm:ss",
+    "script"      : "./bin/www",
+    "watch"       : ["../"],
+    "ignore_watch" : ["node_modules", "static"],
+    "watch_options": {
+      "followSymlinks": false
+    }
+  }]
+}
