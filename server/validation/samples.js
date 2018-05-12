@@ -1,6 +1,5 @@
 module.exports = {
-    createCheck(req, res, next) {
+  createCheck (req, res, next) {
 
-
-    }
-};
+  }
+}
