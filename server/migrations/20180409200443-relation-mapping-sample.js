@@ -7,11 +7,19 @@ module.exports = {
       {
         instrumentMappingId: {
           type: Sequelize.UUID,
-          primaryKey: 'mapping_sample_pkey'
+          primaryKey: 'mapping_sample_pkey',
+          references: {
+            model: 'InstrumentMappings',
+            key: 'id'
+          }
         },
         sampleId: {
           type: Sequelize.UUID,
-          primaryKey: 'mapping_sample_pkey'
+          primaryKey: 'mapping_sample_pkey',
+          references: {
+            model: 'Samples',
+            key: 'id'
+          }
         }
       }
     )
