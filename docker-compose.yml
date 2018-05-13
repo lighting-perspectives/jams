@@ -16,7 +16,7 @@ services:
     express:
         build:
             context: docker/express
-        command: bash -c "yarn && pm2-runtime start process.json"
+        command: bash -c "yarn && DEBUG=express:* pm2-runtime start process.json"
         ports:
             - "${EXPRESS_PORT}:3000"
         environment:
