@@ -47,7 +47,7 @@ module.exports = {
     operatorsAliases
   },
   test: {
-    username: process.env.TEST_DB_USERNAME,
+    username: process.env.TEST_DB_USER,
     password: process.env.TEST_DB_PASSWORD,
     database: process.env.TEST_DB_NAME,
     host: process.env.TEST_DB_HOSTNAME,
@@ -55,7 +55,7 @@ module.exports = {
     operatorsAliases
   },
   production: {
-    username: process.env.PROD_DB_USERNAME,
+    username: process.env.PROD_DB_USER,
     password: process.env.PROD_DB_PASSWORD,
     database: process.env.PROD_DB_NAME,
     host: process.env.PROD_DB_HOSTNAME,
