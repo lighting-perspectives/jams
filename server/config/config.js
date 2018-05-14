@@ -1,5 +1,6 @@
 // http://docs.sequelizejs.com/manual/tutorial/querying.html#operators-aliases
 const Op = require('sequelize').Op
+
 const operatorsAliases = {
   $eq: Op.eq,
   $ne: Op.ne,
@@ -50,7 +51,8 @@ module.exports = {
     username: process.env.TEST_DB_USER,
     password: process.env.TEST_DB_PASSWORD,
     database: process.env.TEST_DB_NAME,
-    host: process.env.TEST_DB_HOSTNAME,
+    host: process.env.DB_HOSTNAME,
+    port: process.env.TEST_DB_PORT || 5432,
     dialect: 'postgres',
     operatorsAliases
   },
