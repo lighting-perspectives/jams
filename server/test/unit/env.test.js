@@ -1,8 +1,8 @@
 /* eslint-disable no-undef */
-const assert = require('chai').assert
+const expect = require('chai').expect
 
 describe('env', function () {
   it('should be test environment', function () {
-    assert.equal(process.env.NODE_ENV, 'test')
+    expect(process.env.NODE_ENV).to.equal('test')
   })
 })
