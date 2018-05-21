@@ -41,7 +41,7 @@ module.exports = {
       .findById(req.params.id)
       .then(sample => {
         if (!sample) {
-          return res.status(400).send({
+          return res.status(404).send({
             message: `Failed to retrieve sample n°${req.params.id}`
           })
         }
