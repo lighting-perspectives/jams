@@ -5,24 +5,40 @@ module.exports = (sequelize, DataTypes) => {
       primaryKey: true,
       type: DataTypes.UUID
     },
-    lowerLimit: {
+    lowerRank: {
       allowNull: false,
-      type: DataTypes.STRING
+      type: DataTypes.INTEGER
     },
-    upperLimit: {
+    upperRank: {
       allowNull: false,
-      type: DataTypes.STRING
+      type: DataTypes.INTEGER
+    },
+    referenceRank: {
+      allowNull: false,
+      type: DataTypes.INTEGER
     }
   }, {})
 
   InstrumentMapping.associate = function (models) {
-    InstrumentMapping.belongsToMany(models.Sample, {
-      through: 'Mappings_Samples',
-      foreignKey: 'instrumentMappingId'
+    // InstrumentMapping.belongsToMany(models.Sample, {
+    //   through: 'Mappings_Samples',
+    //   foreignKey: 'instrumentMappingId'
+    // })
+
+    InstrumentMapping.belongsTo(models.Sample, {
+      foreignKey: {
+        name: 'sampleId',
+        allowNull: false
+      },
+      sourceKey: 'id',
+      onDelete: 'CASCADE'
     })
 
     InstrumentMapping.belongsTo(models.Instrument, {
-      foreignKey: 'instrumentId',
+      foreignKey: {
+        name: 'instrumentId',
+        allowNull: false
+      },
       sourceKey: 'id',
       onDelete: 'CASCADE'
     })

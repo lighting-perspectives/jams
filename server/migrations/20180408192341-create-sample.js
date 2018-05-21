@@ -2,13 +2,14 @@ module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.createTable('Samples', {
       id: {
+        type: Sequelize.UUID,
         allowNull: false,
-        primaryKey: true,
-        type: Sequelize.UUID
+        primaryKey: true
       },
       path: {
-        allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        unique: true,
+        allowNull: false
       },
       filename: {
         type: Sequelize.STRING,
@@ -18,13 +19,21 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
+      group: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
+      label: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
       createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        allowNull: false
       },
       updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
+        allowNull: false
       }
     })
   },

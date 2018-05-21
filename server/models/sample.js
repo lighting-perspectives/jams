@@ -17,15 +17,21 @@ module.exports = (sequelize, DataTypes) => {
     container: { // mp4', aac
       type: DataTypes.STRING,
       allowNull: false
+    },
+    group: {
+      type: DataTypes.STRING
+    },
+    label: {
+      type: DataTypes.STRING
     }
   }, {})
 
-  Sample.associate = function (models) {
-    Sample.belongsToMany(models.InstrumentMapping, {
-      through: 'Mappings_Samples',
-      foreignKey: 'sampleId'
-    })
-  }
+  // Sample.associate = function (models) {
+  //   Sample.belongsToMany(models.InstrumentMapping, {
+  //     through: 'Mappings_Samples',
+  //     foreignKey: 'sampleId'
+  //   })
+  // }
 
   return Sample
 }

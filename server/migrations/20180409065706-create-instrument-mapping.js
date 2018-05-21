@@ -6,13 +6,35 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.UUID
       },
-      lowerLimit: {
+      lowerRank: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
       },
-      upperLimit: {
+      upperRank: {
         allowNull: false,
-        type: Sequelize.STRING
+        type: Sequelize.INTEGER
+      },
+      referenceRank: {
+        allowNull: false,
+        type: Sequelize.INTEGER
+      },
+      sampleId: {
+        type: Sequelize.UUID,
+        onDelete: 'CASCADE',
+        allowNull: false,
+        references: {
+          model: 'Samples',
+          key: 'id'
+        }
+      },
+      instrumentId: {
+        type: Sequelize.UUID,
+        onDelete: 'CASCADE',
+        allowNull: false,
+        references: {
+          model: 'Instruments',
+          key: 'id'
+        }
       },
       createdAt: {
         allowNull: false,
@@ -22,19 +44,10 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-      // instrumentId: {
-      //     type: Sequelize.UUID,
-      //     onDelete: 'CASCADE',
-      //     references: {
-      //         model: 'Instrument',
-      //         key: 'id',
-      //         as: 'instrumentId',
-      //     },
-      // },
     })
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('InstrumentMappings')
+    return queryInterface.dropTable('InstrumentMappings', {})
   }
 }
