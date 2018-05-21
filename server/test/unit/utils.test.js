@@ -1,8 +1,9 @@
 /* eslint-disable no-undef,no-unused-expressions */
 const expect = require('chai').expect
 
+let utils, fn, map
+
 describe('utils', function () {
-  let utils
   beforeEach(function () {
     utils = require('../../utils')
   })
@@ -12,8 +13,6 @@ describe('utils', function () {
   })
 
   describe('mp4filter', function () {
-    let fn
-
     before(function () {
       fn = function (err, val) {
         if (err) { throw err }
@@ -40,8 +39,6 @@ describe('utils', function () {
   })
 
   describe('rankToNote', function () {
-    let map
-
     before(function () {
       map = new Map([[60, 'C3']])
     })
@@ -62,7 +59,6 @@ describe('utils', function () {
   })
 
   describe('noteToRank', function () {
-    let map
     before(function () {
       map = new Map([[60, 'C3']])
     })
