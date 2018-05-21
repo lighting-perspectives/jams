@@ -31,6 +31,19 @@ describe('/api/samples', () => {
       .expect(200)
       .then((res) => {
         expect(res.body).to.be.an('array')
+        expect(res.body).to.have.lengthOf(3)
+      })
+  })
+
+  it('should return 200 on GET /api/samples?group=:group', () => {
+    return request(app)
+      .get('/api/samples')
+      .query({group: 'TR808'})
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((res) => {
+        expect(res.body).to.be.an('array')
         expect(res.body).to.have.lengthOf(2)
       })
   })

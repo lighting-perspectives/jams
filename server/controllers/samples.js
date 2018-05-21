@@ -28,7 +28,7 @@ module.exports = {
         return sample
           .update({
             path: req.file.path || sample.path,
-            filename: req.file.filename || sample.filename,
+            filename: req.file.filename || sample.filename
           })
           .then(() => res.status(200).send(sample))
           .catch(error => res.status(400).send(error))
@@ -69,6 +69,16 @@ module.exports = {
   },
 
   findAll (req, res) {
+    if (req.query.group) {
+      return Sample
+        .all({
+          where: {group: req.query.group},
+          order: [['updatedAt', 'DESC']]
+        })
+        .then(samples => res.status(200).send(samples))
+        .catch(error => res.status(400).send(error))
+    }
+
     return Sample
       .all({
         order: [['updatedAt', 'DESC']]

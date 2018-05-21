@@ -16,5 +16,13 @@ module.exports = [
     container: 'WAV',
     group: 'TR808',
     label: 'BD0010.WAV'
+  },
+  {
+    id: '8554f77b-d395-490b-ab84-5b50d809b7af',
+    path: path.join(__dirname, '../data/files/DnBk1DHitA-Hat01.wav'),
+    filename: 'DnBk1DHitA-Hat01.wav',
+    container: 'WAV',
+    group: 'DnBk1DHitA',
+    label: 'Drum n Bass Drum Hits A - Hit-Hat 01'
   }
 ]
