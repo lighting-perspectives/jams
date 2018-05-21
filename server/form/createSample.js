@@ -5,7 +5,11 @@ const {mp4Filter} = require('../utils')
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(__dirname, '../static/audio'))
+    const dir = process.env.NODE_ENV === 'test'
+      ? path.join(__dirname, '../test/data/files')
+      : path.join(__dirname, '../static/audio')
+
+    cb(null, dir)
   },
   filename: (req, file, cb) => {
     console.log('sanitized filename', sanitize(file.originalname))

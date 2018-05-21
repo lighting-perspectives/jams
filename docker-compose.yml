@@ -34,6 +34,7 @@ services:
             - PROD_DB_USER=${PROD_DB_USER}
             - PROD_DB_PASSWORD=${PROD_DB_PASSWORD}
             - PROD_DB_NAME=${PROD_DB_NAME}
+            - TEST_PORT=${TEST_PORT}
         volumes:
             - ./server:/usr/src/app
         links:

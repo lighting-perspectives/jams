@@ -28,7 +28,7 @@ module.exports = {
         return sample
           .update({
             path: req.file.path || sample.path,
-            filename: req.file.filename || sample.filename
+            filename: req.file.filename || sample.filename,
           })
           .then(() => res.status(200).send(sample))
           .catch(error => res.status(400).send(error))
