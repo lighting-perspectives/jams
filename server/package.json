@@ -7,8 +7,8 @@
     "dev": "nodemon --watch server bin/www localhost 3000",
     "debug": "DEBUG=express:* nodemon ./bin/www localhost 3000",
     "test": "yarn run test-unit && yarn run test-integration",
-    "test-unit": "NODE_ENV=test mocha --recursive",
-    "test-integration": "NODE_ENV=test mocha --recursive"
+    "test-unit": "NODE_ENV=test mocha --recursive test/unit",
+    "test-integration": "NODE_ENV=test mocha --recursive test/integration"
   },
   "main": "./bin/www",
   "dependencies": {
