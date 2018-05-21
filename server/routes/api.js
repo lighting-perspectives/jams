@@ -4,6 +4,7 @@ const router = express.Router()
 const createSample = require('../form/createSample')
 
 const samplesController = require('../controllers').samples
+const instrumentController = require('../controllers').instruments
 
 // const todosController = require('../controllers').todos
 
@@ -38,5 +39,12 @@ router.put('/samples/:id', createSample, samplesController.update)
 router.delete('/samples/:id', samplesController.destroy)
 router.get('/samples', samplesController.findAll)
 router.get('/samples/:id', samplesController.findById)
+
+// Instrument
+router.post('/instruments', createSample, instrumentController.create)
+router.put('/instruments/:id', createSample, instrumentController.update)
+router.delete('/instruments/:id', instrumentController.destroy)
+router.get('/instruments', instrumentController.findAll)
+router.get('/instruments/:id', instrumentController.findById)
 
 module.exports = router

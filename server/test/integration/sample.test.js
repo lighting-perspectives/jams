@@ -29,7 +29,10 @@ describe('/api/samples', () => {
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(200)
-      .then((res) => expect(res.body).to.be.an('array'))
+      .then((res) => {
+        expect(res.body).to.be.an('array')
+        expect(res.body).to.have.lengthOf(2)
+      })
   })
 
   it('should return 200 on GET /api/samples/:id', () => {
@@ -41,6 +44,18 @@ describe('/api/samples', () => {
       .then((res) => {
         expect(res.body).to.be.an('object')
         expect(res.body.id).to.equal('0f1ed577-955a-494d-868c-cf4dc5c3c892')
+      })
+  })
+
+  it('should return 404 on GET /api/samples/:id when id is unknown', () => {
+    return request(app)
+      .get('/api/samples/bb459a9e-0d2c-4da1-b538-88ea43d30f8c')
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(404)
+      .then((res) => {
+        expect(res.body).to.be.an('object')
+        expect(res.body.message).to.equal('Failed to retrieve sample n°bb459a9e-0d2c-4da1-b538-88ea43d30f8c')
       })
   })
 
