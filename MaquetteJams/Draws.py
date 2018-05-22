@@ -7,12 +7,13 @@ import math
 
 
 class Rectangle:
-    def __init__(self, fenetre, x1, y1, x2, y2):
+    def __init__(self, fenetre, x1, y1, x2, y2, track):
         self.fenetre = fenetre
         self._x1 = x1
         self._y1 = y1
         self._x2 = x2
         self._y2 = y2
+        self.track = track
 
     @property
     def x1(self):
@@ -51,7 +52,7 @@ class Rectangle:
             self._y1 = value
 
     def draw(self, played):
-        col = Colours.PAD_ON if played else Colours.PAD_OFF
+        col = Colours.PAD_ON[self.track] if played else Colours.PAD_OFF[self.track]
         pygame.draw.rect(self.fenetre,
                          col,
                          pygame.Rect(self._x1, self._y1, self._x2-self._x1, self._y2-self._y1))
@@ -62,8 +63,8 @@ class Rectangle:
 
 
 class PadRect(Rectangle):
-    def __init__(self, fenetre, x1, y1, x2, y2):
-        Rectangle.__init__(self, fenetre, x1, y1, x2, y2)
+    def __init__(self, fenetre, x1, y1, x2, y2, track):
+        Rectangle.__init__(self, fenetre, x1, y1, x2, y2, track)
 
 
 

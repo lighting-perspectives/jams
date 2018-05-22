@@ -21,12 +21,12 @@ class Pad:
         x2 = x1 + PAD_WIDTH
         y1 = TOP_MARGE + track * (PAD_HEIGHT + TRACK_SPACE)
         y2 = y1 + PAD_HEIGHT
-        self.interface = Draws.PadRect(fenetre, x1, y1, x2, y2)
+        self.interface = Draws.PadRect(fenetre, x1, y1, x2, y2, track)
 
     def draw(self, time):
         played = False
-        start = (self.bar * 4 + self.timediv) * Project.TEMPO / Project.DIV
-        end = start + Project.TEMPO / Project.DIV
+        start = (self.bar * 4 + self.timediv) * (60000 / Project.TEMPO) / Project.DIV
+        end = start + (60000 / Project.TEMPO) / Project.DIV
         # print(str(start) + " - " + str(time) + " - " + str(end))
         if start <= time < end:
             played = True

@@ -29,6 +29,8 @@ class Maquette:
         self.tracks = []
         track = Pad.Track(self.fenetre, 0)
         self.tracks.append(track)
+        track = Pad.Track(self.fenetre, 1)
+        self.tracks.append(track)
 
     def run(self):
         continuer = 1
@@ -52,7 +54,7 @@ class Maquette:
         self.fenetre.fill(Colours.BACKGROUND)
 
         timemillis = pygame.time.get_ticks()
-        time = timemillis % (Project.TEMPO * Project.NB_BARS)
+        time = timemillis % (60000 / Project.TEMPO * Project.NB_BARS)
 
         # print("time : " + str(time))
 
