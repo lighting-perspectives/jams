@@ -5,6 +5,7 @@ const createSample = require('../form/createSample')
 
 const samplesController = require('../controllers').samples
 const instrumentController = require('../controllers').instruments
+const instrumentMappingsController = require('../controllers').instrumentMappings
 
 // const todosController = require('../controllers').todos
 
@@ -41,10 +42,15 @@ router.get('/samples', samplesController.findAll)
 router.get('/samples/:id', samplesController.findById)
 
 // Instrument
-router.post('/instruments', createSample, instrumentController.create)
-router.put('/instruments/:id', createSample, instrumentController.update)
+router.post('/instruments', instrumentController.create)
+router.put('/instruments/:id', instrumentController.update)
 router.delete('/instruments/:id', instrumentController.destroy)
 router.get('/instruments', instrumentController.findAll)
 router.get('/instruments/:id', instrumentController.findById)
+
+// InstrumentMappings
+router.post('/mappings', instrumentMappingsController.create)
+router.put('/mappings/:id', instrumentMappingsController.update)
+router.delete('/mappings/:id', instrumentMappingsController.destroy)
 
 module.exports = router

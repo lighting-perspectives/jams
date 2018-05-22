@@ -1,4 +1,5 @@
 const Instrument = require('../models').Instrument
+const InstrumentMapping = require('../models').InstrumentMapping
 
 const uuidv4 = require('uuid/v4')
 
@@ -52,7 +53,12 @@ module.exports = {
 
   findById (req, res) {
     return Instrument
-      .findById(req.params.id, {})
+      .findById(req.params.id, {
+        include: [{
+          model: InstrumentMapping,
+          as: 'mappings'
+        }]
+      })
       .then(instrument => {
         if (!instrument) {
           return res.status(404).send({
@@ -68,6 +74,10 @@ module.exports = {
   findAll (req, res) {
     return Instrument
       .all({
+        include: [{
+          model: InstrumentMapping,
+          as: 'mappings'
+        }],
         order: [['updatedAt', 'DESC']]
       })
       .then(instruments => res.status(200).send(instruments))

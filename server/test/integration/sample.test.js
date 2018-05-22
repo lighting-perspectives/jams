@@ -30,8 +30,8 @@ describe('/api/samples', () => {
       .expect('Content-Type', /json/)
       .expect(200)
       .then((res) => {
-        expect(res.body).to.be.an('array')
-        expect(res.body).to.have.lengthOf(3)
+        expect(res.body, 'body should be an array').to.be.an('array')
+        expect(res.body, 'body should contain 5 elements').to.have.lengthOf(5)
       })
   })
 
@@ -43,8 +43,8 @@ describe('/api/samples', () => {
       .expect('Content-Type', /json/)
       .expect(200)
       .then((res) => {
-        expect(res.body).to.be.an('array')
-        expect(res.body).to.have.lengthOf(2)
+        expect(res.body, 'body should be an array').to.be.an('array')
+        expect(res.body, 'body should contain 2 elements').to.have.lengthOf(2)
       })
   })
 
@@ -55,8 +55,8 @@ describe('/api/samples', () => {
       .expect('Content-Type', /json/)
       .expect(200)
       .then((res) => {
-        expect(res.body).to.be.an('object')
-        expect(res.body.id).to.equal('0f1ed577-955a-494d-868c-cf4dc5c3c892')
+        expect(res.body, 'body should be a object').to.be.an('object')
+        expect(res.body.id, 'id should equal 0f1ed577-955a-494d-868c-cf4dc5c3c892').to.equal('0f1ed577-955a-494d-868c-cf4dc5c3c892')
       })
   })
 
@@ -67,8 +67,8 @@ describe('/api/samples', () => {
       .expect('Content-Type', /json/)
       .expect(404)
       .then((res) => {
-        expect(res.body).to.be.an('object')
-        expect(res.body.message).to.equal('Failed to retrieve sample n°bb459a9e-0d2c-4da1-b538-88ea43d30f8c')
+        expect(res.body, 'body should be a object').to.be.an('object')
+        expect(res.body.message, 'expected error message').to.equal('Failed to retrieve sample n°bb459a9e-0d2c-4da1-b538-88ea43d30f8c')
       })
   })
 
@@ -80,9 +80,9 @@ describe('/api/samples', () => {
       .expect('Content-Type', /json/)
       .expect(201)
       .then((res) => {
-        expect(res.body).to.be.an('object')
+        expect(res.body, 'body should be a object').to.be.an('object')
         expect(res.body.path).to.equal(path.join(__dirname, '../data/files/CB.WAV'))
-        expect(res.body.filename).to.equal('CB.WAV')
+        expect(res.body.filename, 'filename should equal CB.WAV').to.equal('CB.WAV')
       })
   })
 
@@ -96,15 +96,15 @@ describe('/api/samples', () => {
 
   it('should return 200 on PUT /api/samples/:id', () => {
     return request(app)
-      .put('/api/samples/0f1ed577-955a-494d-868c-cf4dc5c3c892')
-      .attach('audioFile', path.join(__dirname, '../data/files/CB.WAV'))
+      .put('/api/samples/636f247a-dc88-4b52-b8e8-78448b5e5790')
+      .attach('audioFile', path.join(__dirname, '../data/files/DnBk1DHitA-Kick01.wav'))
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(200)
       .then((res) => {
-        expect(res.body).to.be.an('object')
-        expect(res.body.path).to.equal(path.join(__dirname, '../data/files/CB.WAV'))
-        expect(res.body.filename).to.equal('CB.WAV')
+        expect(res.body, 'body should be a object').to.be.an('object')
+        expect(res.body.path).to.equal(path.join(__dirname, '../data/files/DnBk1DHitA-Kick01.wav'))
+        expect(res.body.filename, 'filename should equal DnBk1DHitA-Kick01.wav').to.equal('DnBk1DHitA-Kick01.wav')
       })
   })
 
@@ -116,8 +116,8 @@ describe('/api/samples', () => {
       .expect('Content-Type', /json/)
       .expect(404)
       .then((res) => {
-        expect(res.body).to.be.an('object')
-        expect(res.body.message).to.equal('Failed to retrieve sample n°bb459a9e-0d2c-4da1-b538-88ea43d30f8c')
+        expect(res.body, 'body should be a object').to.be.an('object')
+        expect(res.body.message, 'expected error message').to.equal('Failed to retrieve sample n°bb459a9e-0d2c-4da1-b538-88ea43d30f8c')
       })
   })
 
@@ -126,7 +126,7 @@ describe('/api/samples', () => {
       .delete('/api/samples/704a3bc4-ff5f-4290-b891-6d24d16c47b9')
       .expect(204)
       .then((res) => {
-        expect(res.body).to.be.empty
+        expect(res.body, 'body should be empty').to.be.empty
       })
   })
 
@@ -137,8 +137,8 @@ describe('/api/samples', () => {
       .expect('Content-Type', /json/)
       .expect(404)
       .then((res) => {
-        expect(res.body).to.be.an('object')
-        expect(res.body.message).to.equal('Failed to retrieve sample n°bb459a9e-0d2c-4da1-b538-88ea43d30f8c')
+        expect(res.body, 'body should be a object').to.be.an('object')
+        expect(res.body.message, 'expected error message').to.equal('Failed to retrieve sample n°bb459a9e-0d2c-4da1-b538-88ea43d30f8c')
       })
   })
 })

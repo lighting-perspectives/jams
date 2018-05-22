@@ -7,17 +7,29 @@ const fixtures = require('../data/fixtures')
 
 describe('/api/instruments', () => {
   beforeEach(() => {
+    this.Sample = require('../../models').Sample
     this.Instrument = require('../../models').Instrument
+    this.InstrumentMapping = require('../../models').InstrumentMapping
     this.ValidationError = require('../../models').sequelize.ValidationError
 
+    expect(this.Sample).to.exist
     expect(this.Instrument).to.exist
+    expect(this.InstrumentMapping).to.exist
     expect(this.ValidationError).to.exist
 
     return require('../../models').sequelize
       .sync({force: true, logging: false})
       .then(() => {
         console.log('db synced')
-        return this.Instrument.bulkCreate(fixtures.instruments)
+        return this.Sample
+          .bulkCreate(fixtures.samples)
+      })
+      .then(samples => {
+        return this.Instrument
+          .bulkCreate(fixtures.instruments)
+      })
+      .then(instruments => {
+        return this.InstrumentMapping.bulkCreate(fixtures.instrumentMappings)
       })
       .then(() => console.log('Fixtures loaded'))
   })
@@ -29,8 +41,11 @@ describe('/api/instruments', () => {
       .expect('Content-Type', /json/)
       .expect(200)
       .then((res) => {
-        expect(res.body).to.be.an('array')
-        expect(res.body).to.have.lengthOf(2)
+        expect(res.body, 'body should be an array').to.be.an('array')
+        expect(res.body, 'body should contain 3 items').to.have.lengthOf(3)
+        expect(res.body[0], 'item 0 should be an object').to.be.an('object')
+        expect(res.body[0].mappings, 'item 0 \'s mappings should be an array').to.be.an('array')
+        expect(res.body[0].mappings, 'item 0 \'s mappings should contain 2 elements').to.have.lengthOf(2)
       })
   })
 
@@ -41,8 +56,10 @@ describe('/api/instruments', () => {
       .expect('Content-Type', /json/)
       .expect(200)
       .then((res) => {
-        expect(res.body).to.be.an('object')
-        expect(res.body.id).to.equal('a35c6ac4-53f7-49b7-82e3-7a0aba5c2c45')
+        expect(res.body, 'body should be an object').to.be.an('object')
+        expect(res.body.id, 'id should equal a35c6ac4-53f7-49b7-82e3-7a0aba5c2c45').to.equal('a35c6ac4-53f7-49b7-82e3-7a0aba5c2c45')
+        expect(res.body.mappings, 'mappings should be an array').to.be.an('array')
+        expect(res.body.mappings, 'mappins should contain 2 elements').to.have.lengthOf(2)
       })
   })
 
@@ -53,8 +70,8 @@ describe('/api/instruments', () => {
       .expect('Content-Type', /json/)
       .expect(404)
       .then((res) => {
-        expect(res.body).to.be.an('object')
-        expect(res.body.message).to.equal('Failed to retrieve instrument n°bb459a9e-0d2c-4da1-b538-88ea43d30f8c')
+        expect(res.body, 'body should be an array').to.be.an('object')
+        expect(res.body.message, 'expected an error message').to.equal('Failed to retrieve instrument n°bb459a9e-0d2c-4da1-b538-88ea43d30f8c')
       })
   })
 
@@ -66,8 +83,8 @@ describe('/api/instruments', () => {
       .expect('Content-Type', /json/)
       .expect(201)
       .then((res) => {
-        expect(res.body).to.be.an('object')
-        expect(res.body.label).to.equal('foo')
+        expect(res.body, 'body should be an object').to.be.an('object')
+        expect(res.body.label, 'label should equal foo').to.equal('foo')
       })
   })
 
@@ -79,8 +96,8 @@ describe('/api/instruments', () => {
       .expect('Content-Type', /json/)
       .expect(200)
       .then((res) => {
-        expect(res.body).to.be.an('object')
-        expect(res.body.label).to.equal('bar')
+        expect(res.body, 'body should be an object').to.be.an('object')
+        expect(res.body.label, 'label should equal bar').to.equal('bar')
       })
   })
 
@@ -92,8 +109,8 @@ describe('/api/instruments', () => {
       .expect('Content-Type', /json/)
       .expect(404)
       .then((res) => {
-        expect(res.body).to.be.an('object')
-        expect(res.body.message).to.equal('Failed to retrieve instrument n°bb459a9e-0d2c-4da1-b538-88ea43d30f8c')
+        expect(res.body, 'body should be an object').to.be.an('object')
+        expect(res.body.message, 'expected error message').to.equal('Failed to retrieve instrument n°bb459a9e-0d2c-4da1-b538-88ea43d30f8c')
       })
   })
 })
