@@ -1,0 +1,259 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "0.1.0",
+    "title": "Jams",
+    "description": "Just Another Music Studio !"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api-docs",
+      "description": "Server for development"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "Sample": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "path": {
+            "type": "string"
+          },
+          "filename": {
+            "type": "string"
+          },
+          "container": {
+            "type": "string"
+          },
+          "group": {
+            "type": "string"
+          },
+          "label": {
+            "type": "string"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date"
+          }
+        },
+        "required": [
+          "id",
+          "path",
+          "filename",
+          "container",
+          "group",
+          "label",
+          "createdAt",
+          "updatedAt"
+        ]
+      }
+    }
+  },
+  "paths": {
+    "/api/samples": {
+      "get": {
+        "summary": "Gets all samples",
+        "description": "Returns a collection containing all samples",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "description": "Sample group"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON Array containing samples",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Sample"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Creates a sample",
+        "description": "Adds a new Sample to the collection",
+        "requestBody": {
+          "description": "OK",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "properties": {
+                  "audioFile": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "label": {
+                    "type": "string"
+                  },
+                  "group": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The Sample succesfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Sample"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Sample couldn't have been created"
+          }
+        }
+      }
+    },
+    "/api/samples/{id}": {
+      "get": {
+        "summary": "Gets a sample",
+        "description": "Gets the sample with the specified ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "UUID v4",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Sample with the specified ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Sample"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The specified sample ID is invalid (not a UUIDv4)"
+          },
+          "404": {
+            "description": "A sample with the specified ID was not found"
+          },
+          "default": {
+            "description": "Unexpected error"
+          }
+        }
+      },
+      "put": {
+        "summary": "Updates a sample",
+        "description": "Updates the sample with the specified ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "UUID v4",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Sample fields to update",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "properties": {
+                  "audioFile": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "label": {
+                    "type": "string"
+                  },
+                  "group": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Sample successfully updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Sample"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The specified sample id is invalid (not a UUIDv4)"
+          },
+          "404": {
+            "description": "A sample with the specified id was not found"
+          },
+          "default": {
+            "description": "Unexpected error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletes a sample",
+        "description": "Removes the sample with the specified ID from the collection",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "UUID v4",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Sample sucessfully removed"
+          },
+          "400": {
+            "description": "The specified sample ID is invalid (not a UUIDv4)"
+          },
+          "404": {
+            "description": "A sample with the specified ID was not found"
+          },
+          "default": {
+            "description": "Unexpected error"
+          }
+        }
+      }
+    }
+  }
+}
