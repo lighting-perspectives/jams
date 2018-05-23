@@ -7,7 +7,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:3000/api-docs",
+      "url": "http://localhost:3000",
       "description": "Server for development"
     }
   ],
@@ -91,7 +91,7 @@
         "summary": "Creates a sample",
         "description": "Adds a new Sample to the collection",
         "requestBody": {
-          "description": "OK",
+          "description": "Required data to create the sample",
           "required": true,
           "content": {
             "multipart/form-data": {
@@ -99,13 +99,16 @@
                 "properties": {
                   "audioFile": {
                     "type": "string",
-                    "format": "binary"
+                    "format": "binary",
+                    "description": "An audio file (WAV, MP4)"
                   },
                   "label": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "A label for the sample"
                   },
                   "group": {
-                    "type": "string"
+                    "type": "string",
+                    "description": "A group name for the sample"
                   }
                 }
               }
