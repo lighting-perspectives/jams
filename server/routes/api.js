@@ -35,21 +35,23 @@ router.get('/', function (req, res, next) {
 // router.delete('/todos/:todoId/items/:id', todoItemsController.destroy)
 
 // Sample
+router.get('/samples', samplesController.findAll)
 router.post('/samples', createSample, samplesController.create)
+router.get('/samples/:id', samplesController.findById)
 router.put('/samples/:id', createSample, samplesController.update)
 router.delete('/samples/:id', samplesController.destroy)
-router.get('/samples', samplesController.findAll)
-router.get('/samples/:id', samplesController.findById)
 
 // Instrument
+router.get('/instruments', instrumentController.findAll)
 router.post('/instruments', instrumentController.create)
+router.get('/instruments/:id', instrumentController.findById)
 router.put('/instruments/:id', instrumentController.update)
 router.delete('/instruments/:id', instrumentController.destroy)
-router.get('/instruments', instrumentController.findAll)
-router.get('/instruments/:id', instrumentController.findById)
 
 // InstrumentMappings
-router.post('/mappings', instrumentMappingsController.create)
+router.get('/instruments/:instrumentId/mappings', instrumentMappingsController.findAll)
+router.post('/instruments/:instrumentId/mappings', instrumentMappingsController.create)
+router.get('/mappings/:id', instrumentMappingsController.findById)
 router.put('/mappings/:id', instrumentMappingsController.update)
 router.delete('/mappings/:id', instrumentMappingsController.destroy)
 

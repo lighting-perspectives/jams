@@ -36,15 +36,27 @@ describe('/api/mappings', () => {
       .then(() => console.log('Fixtures loaded'))
   })
 
-  it('should return 201 on POST /api/mappings', () => {
+  it('should return 200 on GET /api/instruments/:instrumentId/mappings', () => {
     return request(app)
-      .post('/api/mappings')
+      .get('/api/instruments/a35c6ac4-53f7-49b7-82e3-7a0aba5c2c45/mappings')
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((res) => {
+        expect(res.body, 'body should be an array').to.be.an('array')
+        expect(res.body, 'body should contain 2 items').to.have.lengthOf(2)
+        expect(res.body[0], 'item 0 should be an object').to.be.an('object')
+      })
+  })
+
+  it('should return 201 on POST /api/instruments/:instrumentId/mappings', () => {
+    return request(app)
+      .post('/api/instruments/a35c6ac4-53f7-49b7-82e3-7a0aba5c2c45/mappings')
       .send({
         lowerRank: 55,
         upperRank: 56,
         referenceRank: 55,
-        sampleId: '636f247a-dc88-4b52-b8e8-78448b5e5790',
-        instrumentId: '85918ef7-06d0-4e61-b798-85514573f226'
+        sampleId: '636f247a-dc88-4b52-b8e8-78448b5e5790'
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
@@ -55,7 +67,19 @@ describe('/api/mappings', () => {
         expect(res.body.upperRank, 'upperRank should equal 56').to.equal(56)
         expect(res.body.referenceRank, 'referenceRank should equal 55').to.equal(55)
         expect(res.body.sampleId).to.equal('636f247a-dc88-4b52-b8e8-78448b5e5790', 'sampleId should equal 636f247a-dc88-4b52-b8e8-78448b5e5790')
-        expect(res.body.instrumentId).to.equal('85918ef7-06d0-4e61-b798-85514573f226', 'instrumentId should equal 85918ef7-06d0-4e61-b798-85514573f226')
+        expect(res.body.instrumentId).to.equal('a35c6ac4-53f7-49b7-82e3-7a0aba5c2c45', 'instrumentId should equal a35c6ac4-53f7-49b7-82e3-7a0aba5c2c45')
+      })
+  })
+
+  it('should return 200 GET /api/mappings/:id', () => {
+    return request(app)
+      .get('/api/mappings/1bcab515-ed82-4449-aec9-16a6142b0d15')
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(200)
+      .then((res) => {
+        expect(res.body, 'body should be an object').to.be.an('object')
+        expect(res.body.id, 'id should equal 1bcab515-ed82-4449-aec9-16a6142b0d15').to.equal('1bcab515-ed82-4449-aec9-16a6142b0d15')
       })
   })
 
@@ -63,15 +87,19 @@ describe('/api/mappings', () => {
     return request(app)
       .put('/api/mappings/712fda5f-3ff5-4e23-8949-320a96e0d565')
       .send({
-        sampleId: '0f1ed577-955a-494d-868c-cf4dc5c3c892',
-        instrumentId: 'd83ffbeb-8fe3-4ca9-8d89-e1c6de86c4df'
+        lowerRank: 45,
+        upperRank: 46,
+        referenceRank: 45,
+        sampleId: '0f1ed577-955a-494d-868c-cf4dc5c3c892'
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(200)
       .then(res => {
+        expect(res.body.lowerRank, 'lowerRank should equal 45').to.equal(45)
+        expect(res.body.upperRank, 'upperRank should equal 46').to.equal(46)
+        expect(res.body.referenceRank, 'referenceRank should equal 45').to.equal(45)
         expect(res.body.sampleId).to.equal('0f1ed577-955a-494d-868c-cf4dc5c3c892', 'sampleId should equal 0f1ed577-955a-494d-868c-cf4dc5c3c892')
-        expect(res.body.instrumentId).to.equal('d83ffbeb-8fe3-4ca9-8d89-e1c6de86c4df', 'instrumentId should equal d83ffbeb-8fe3-4ca9-8d89-e1c6de86c4df')
       })
   })
 
@@ -79,8 +107,7 @@ describe('/api/mappings', () => {
     return request(app)
       .put('/api/mappings/bb459a9e-0d2c-4da1-b538-88ea43d30f8c')
       .send({
-        sampleId: '0f1ed577-955a-494d-868c-cf4dc5c3c892',
-        instrumentId: 'd83ffbeb-8fe3-4ca9-8d89-e1c6de86c4df'
+        sampleId: '0f1ed577-955a-494d-868c-cf4dc5c3c892'
       })
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
