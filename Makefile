@@ -2,6 +2,9 @@ FIG=docker-compose
 SERVER_CONTAINER=express
 SERVER_RUN=$(FIG) run --rm $(SERVER_CONTAINER)
 SERVER_EXEC=$(FIG) exec $(SERVER_CONTAINER)
+CLIENT_CONTAINER=react
+CLIENT_RUN=$(FIG) run --rm $(CLIENT_CONTAINER)
+CLIENT_EXEC=$(FIG) exec $(CLIENT_CONTAINER)
 
 .DEFAULT_GOAL := help
 .PHONY: help up stop status logs back back-test
@@ -46,7 +49,6 @@ back-test:      ## Run all server tests
 back-test:
 	$(SERVER_EXEC) yarn run test
 
-
-
-
-
+front:           ## Execute bash in client container
+front:
+	$(CLIENT_EXEC) bash
