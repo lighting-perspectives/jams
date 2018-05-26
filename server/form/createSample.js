@@ -18,3 +18,17 @@ const storage = multer.diskStorage({
 })
 
 module.exports = multer({storage: storage, fileFilter: mp4Filter}).single('audioFile')
+// const upload = multer({storage: storage, fileFilter: mp4Filter}).single('audioFile')
+//
+// module.exports = (res, req) => {
+//   upload(req, res, err => {
+//     if (err) {
+//       err.multer = {
+//         error: err.name
+//       }
+//       return
+//     }
+//
+//     Everything went fine
+// })
+// }

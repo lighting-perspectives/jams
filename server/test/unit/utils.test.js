@@ -30,11 +30,11 @@ describe('utils', function () {
     it('should fail with non-mp4 file', function () {
       expect(function () {
         utils.mp4Filter(null, {originalname: 'foo.mp3'}, fn)
-      }).to.throw(Error, 'Only audio files are allowed!')
+      }).to.throw(Error, 'The given file is not an audio file')
 
       expect(function () {
         utils.mp4Filter(null, {originalname: 'foo.doc'}, fn)
-      }).to.throw(Error, 'Only audio files are allowed!')
+      }).to.throw(Error, 'The given file is not an audio file')
     })
   })
 

@@ -109,12 +109,12 @@ describe('/api/samples', () => {
       })
   })
 
-  it('should return 500 on POST /api/samples when audioFile is not an audio file', () => {
+  it('should return 400 on POST /api/samples when audioFile is not an audio file', () => {
     return request(app)
       .post('/api/samples')
       .attach('audioFile', path.join(__dirname, '../data/files/dummy.txt'))
       .set('Accept', 'application/json')
-      .expect(500)
+      .expect(400)
   })
 
   it('should return 200 on PUT /api/samples/:id', () => {
