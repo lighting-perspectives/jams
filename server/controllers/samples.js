@@ -2,6 +2,11 @@ const Sample = require('../models').Sample
 
 const uuidv4 = require('uuid/v4')
 
+const DEFAULT = {
+  CONTAINER: 'WAV',
+  GROUP: 'default'
+}
+
 module.exports = {
   create (req, res) {
     return Sample
@@ -9,7 +14,9 @@ module.exports = {
         id: uuidv4(),
         path: req.file.path,
         filename: req.file.filename,
-        container: 'mp4'
+        container: req.body.container || DEFAULT.CONTAINER,
+        label: req.body.label || req.file.filename,
+        group: req.body.group || DEFAULT.GROUP
       })
       .then(sample => res.status(201).send(sample))
       .catch(error => res.status(400).send(error))
@@ -27,8 +34,10 @@ module.exports = {
 
         return sample
           .update({
-            path: req.file.path || sample.path,
-            filename: req.file.filename || sample.filename
+            path: (req.file ? req.file.path : null) || sample.path,
+            filename: (req.file ? req.file.filename : null) || sample.filename,
+            label: req.body.label || sample.label,
+            group: req.body.group || sample.group
           })
           .then(() => res.status(200).send(sample))
           .catch(error => res.status(400).send(error))

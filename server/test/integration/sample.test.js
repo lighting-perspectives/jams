@@ -75,6 +75,9 @@ describe('/api/samples', () => {
   it('should return 201 on POST /api/samples', () => {
     return request(app)
       .post('/api/samples')
+      .field('label', 'foo')
+      .field('group', 'bar')
+      .field('container', 'wav')
       .attach('audioFile', path.join(__dirname, '../data/files/CB.WAV'))
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
@@ -83,6 +86,26 @@ describe('/api/samples', () => {
         expect(res.body, 'body should be a object').to.be.an('object')
         expect(res.body.path).to.equal(path.join(__dirname, '../data/files/CB.WAV'))
         expect(res.body.filename, 'filename should equal CB.WAV').to.equal('CB.WAV')
+        expect(res.body.container).to.equal('wav')
+        expect(res.body.label).to.equal('foo')
+        expect(res.body.group).to.equal('bar')
+      })
+  })
+
+  it('should return 201 on POST /api/samples with default field values', () => {
+    return request(app)
+      .post('/api/samples')
+      .attach('audioFile', path.join(__dirname, '../data/files/CB.WAV'))
+      .set('Accept', 'application/json')
+      .expect('Content-Type', /json/)
+      .expect(201)
+      .then((res) => {
+        expect(res.body, 'body should be a object').to.be.an('object')
+        expect(res.body.path).to.equal(path.join(__dirname, '../data/files/CB.WAV'))
+        expect(res.body.filename, 'filename should equal CB.WAV').to.equal('CB.WAV')
+        expect(res.body.container).to.equal('WAV')
+        expect(res.body.group).to.equal('default')
+        expect(res.body.label).to.equal('CB.WAV')
       })
   })
 
@@ -97,6 +120,8 @@ describe('/api/samples', () => {
   it('should return 200 on PUT /api/samples/:id', () => {
     return request(app)
       .put('/api/samples/636f247a-dc88-4b52-b8e8-78448b5e5790')
+      .field('label', 'New label')
+      .field('group', 'New group')
       .attach('audioFile', path.join(__dirname, '../data/files/DnBk1DHitA-Kick01.wav'))
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
@@ -105,6 +130,8 @@ describe('/api/samples', () => {
         expect(res.body, 'body should be a object').to.be.an('object')
         expect(res.body.path).to.equal(path.join(__dirname, '../data/files/DnBk1DHitA-Kick01.wav'))
         expect(res.body.filename, 'filename should equal DnBk1DHitA-Kick01.wav').to.equal('DnBk1DHitA-Kick01.wav')
+        expect(res.body.label).to.equal('New label')
+        expect(res.body.group).to.equal('New group')
       })
   })
 
