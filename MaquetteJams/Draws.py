@@ -51,11 +51,16 @@ class Rectangle:
         if value >= 0:
             self._y1 = value
 
-    def draw(self, played):
+    def draw(self, played, state):
         col = Colours.PAD_ON[self.track] if played else Colours.PAD_OFF[self.track]
         pygame.draw.rect(self.fenetre,
                          col,
                          pygame.Rect(self._x1, self._y1, self._x2-self._x1, self._y2-self._y1))
+
+        if state:
+            pygame.draw.ellipse(self.fenetre,
+                                Colours.BACKGROUND,
+                                pygame.Rect(self._x1, self._y1, self._x2-self._x1, self._y2-self._y1))
 
         # font = pygame.font.SysFont('Comic Sans MS', 30)
         # text_surface = font.render('TEST', False, Colours.white)
