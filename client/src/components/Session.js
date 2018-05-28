@@ -1,8 +1,11 @@
 import React from 'react'
+import { Container } from 'semantic-ui-react'
 
 const Session = () => {
   return (
-    <h1>Session</h1>
+    <Container style={{ marginTop: '7em' }} >
+      <h1>Session</h1>
+    </Container>
   )
 }
 

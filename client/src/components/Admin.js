@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import SampleViewLayout from './SampleViewLayout'
+import { Container } from 'semantic-ui-react'
 
 class Admin extends Component {
   constructor (props) {
@@ -20,11 +21,11 @@ class Admin extends Component {
     const {samples} = this.state
 
     return (
-      <div>
+      <Container style={{ marginTop: '7em' }} >
         <h1>Admin</h1>
 
         <SampleViewLayout samples={samples} />
-      </div>
+      </Container>
     )
   }
 }
