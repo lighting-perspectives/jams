@@ -6,7 +6,7 @@ import MainHeader from './components/MainHeader'
 import Home from './components/Home'
 import Dashboard from './components/Dashboard'
 import Session from './components/Session'
-import Admin from './components/Admin'
+import Admin from './components/admin/Admin'
 
 class App extends Component {
   render () {
