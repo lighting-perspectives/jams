@@ -7,8 +7,14 @@ import math
 import Draws
 import Colours
 import Pad
-from Project import Project
+import Project
 
+import Partition
+
+BUTTON_WIDTH = 60
+BUTTON_HEIGHT = 40
+
+SOUNDS = ["./sounds/hihat.wav", "./sounds/bd.wav", "./sounds/bd.wav", "./sounds/bd.wav"]
 
 def main():
     maquette = Maquette()
@@ -26,11 +32,41 @@ class Maquette:
         pygame.display.flip()
         self.clock = pygame.time.Clock()
 
+        Project.partition = Partition.Partition()
+
         self.tracks = []
-        track = Pad.Track(self.fenetre, 0, pygame.mixer.Sound("./sounds/hihat.wav"))
-        self.tracks.append(track)
-        track = Pad.Track(self.fenetre, 1, pygame.mixer.Sound("./sounds/bd.wav"))
-        self.tracks.append(track)
+
+        for k, v in Project.partition.tracks.items():
+            track = Pad.Track(self.fenetre, k, pygame.mixer.Sound(SOUNDS[k]))
+            self.tracks.append(track)
+
+        self.noire_button = Pad.Button(self.noire_selected, self.fenetre,
+                                       50, 50, 50 + BUTTON_WIDTH, 50 + BUTTON_HEIGHT, 'noire')
+        self.croche_button = Pad.Button(self.croche_selected, self.fenetre,
+                                        150, 50, 150 + BUTTON_WIDTH, 50 + BUTTON_HEIGHT, 'croche')
+        self.doublecroche_button = Pad.Button(self.doublecroche_selected, self.fenetre,
+                                              250, 50, 250 + BUTTON_WIDTH, 50 + BUTTON_HEIGHT, 'double')
+
+        self.buttons = []
+        self.buttons.append(self.noire_button)
+        self.buttons.append(self.croche_button)
+        self.buttons.append(self.doublecroche_button)
+
+    def noire_selected(self):
+        Project.DIV = 4
+        self.reinit_tracks()
+
+    def croche_selected(self):
+        Project.DIV = 8
+        self.reinit_tracks()
+
+    def doublecroche_selected(self):
+        Project.DIV = 16
+        self.reinit_tracks()
+
+    def reinit_tracks(self):
+        for tr in self.tracks:
+            tr.reinit()
 
     def run(self):
         continuer = 1
@@ -46,9 +82,11 @@ class Maquette:
                     #         ship_pos_x += 0.2 * msElapsed
 
                 if event.type == pygame.MOUSEBUTTONUP:
-                    mousePos = pygame.mouse.get_pos()
+                    mouse_pos = pygame.mouse.get_pos()
                     for tr in self.tracks:
-                        tr.click(mousePos)
+                        tr.click(mouse_pos)
+                    for b in self.buttons:
+                        b.click(mouse_pos)
 
             self.update()
             self.draw()
@@ -66,6 +104,9 @@ class Maquette:
 
         for tr in self.tracks:
             tr.draw(time)
+
+        for b in self.buttons:
+            b.draw()
 
     def update(self):
         timemillis = pygame.time.get_ticks()

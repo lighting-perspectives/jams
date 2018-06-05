@@ -4,4 +4,5 @@
 
 docker/db/data
 
-MaquetteJams/_pycache_
+MaquetteJams/__pycache__
+MaquetteJams/__pycache__/*
