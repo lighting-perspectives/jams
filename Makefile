@@ -7,7 +7,7 @@ CLIENT_RUN=$(FIG) run --rm $(CLIENT_CONTAINER)
 CLIENT_EXEC=$(FIG) exec $(CLIENT_CONTAINER)
 
 .DEFAULT_GOAL := help
-.PHONY: help up stop status logs back back-test
+.PHONY: help up stop restart status logs back back-test
 
 help:
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
@@ -27,6 +27,9 @@ stop:           ## Remove project containers
 stop:
 	$(FIG) kill
 	$(FIG) rm -v --force
+
+restart:        ## Restart all containers
+restart: stop up
 
 status:         ## Container status
 status:
