@@ -37,6 +37,7 @@ services:
             - TEST_PORT=${TEST_PORT}
         volumes:
             - ./server:/usr/src/app
+#            - ${NODE_LOG_DIR}:/home/node/.pm2/logs
         links:
             - db:postgres
 
