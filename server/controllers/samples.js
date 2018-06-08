@@ -1,6 +1,6 @@
 const Sample = require('../models').Sample
-
 const uuidv4 = require('uuid/v4')
+const DatabaseError = require('../errors/DatabaseError')
 
 const DEFAULT = {
   CONTAINER: 'WAV',
@@ -8,7 +8,7 @@ const DEFAULT = {
 }
 
 module.exports = {
-  create (req, res) {
+  create (req, res, next) {
     return Sample
       .create({
         id: uuidv4(),
@@ -19,17 +19,15 @@ module.exports = {
         group: req.body.group || DEFAULT.GROUP
       })
       .then(sample => res.status(201).send(sample))
-      .catch(error => res.status(400).send(error))
+      .catch(error => next(new DatabaseError(error, 400)))
   },
 
-  update (req, res) {
+  update (req, res, next) {
     return Sample
       .findById(req.params.id, {})
       .then(sample => {
         if (!sample) {
-          return res.status(404).send({
-            message: `Failed to retrieve sample n°${req.params.id}`
-          })
+          next(new DatabaseError(null, 404, `Failed to retrieve sample n°${req.params.id}`))
         }
 
         return sample
@@ -40,44 +38,41 @@ module.exports = {
             group: req.body.group || sample.group
           })
           .then(() => res.status(200).send(sample))
-          .catch(error => res.status(400).send(error))
+          .catch(error => next(new DatabaseError(error, 400)))
       })
-      .catch(error => res.status(400).send(error))
+      .catch(error => next(new DatabaseError(error, 400)))
   },
 
-  destroy (req, res) {
+  destroy (req, res, next) {
     return Sample
       .findById(req.params.id)
       .then(sample => {
         if (!sample) {
-          return res.status(404).send({
-            message: `Failed to retrieve sample n°${req.params.id}`
-          })
+          next(new DatabaseError(null, 404, `Failed to retrieve sample n°${req.params.id}`))
         }
+
         return sample
           .destroy()
           .then(() => res.status(204).send())
-          .catch(error => res.status(400).send(error))
+          .catch(error => next(new DatabaseError(error, 400)))
       })
-      .catch(error => res.status(400).send(error))
+      .catch(error => next(new DatabaseError(error, 400)))
   },
 
-  findById (req, res) {
+  findById (req, res, next) {
     return Sample
       .findById(req.params.id, {})
       .then(sample => {
         if (!sample) {
-          return res.status(404).send({
-            message: `Failed to retrieve sample n°${req.params.id}`
-          })
+          next(new DatabaseError(null, 404, `Failed to retrieve sample n°${req.params.id}`))
         }
 
         return res.status(200).send(sample)
       })
-      .catch(error => res.status(400).send(error))
+      .catch(error => next(new DatabaseError(error, 400)))
   },
 
-  findAll (req, res) {
+  findAll (req, res, next) {
     if (req.query.group) {
       return Sample
         .all({
@@ -85,7 +80,7 @@ module.exports = {
           order: [['updatedAt', 'DESC']]
         })
         .then(samples => res.status(200).send(samples))
-        .catch(error => res.status(400).send(error))
+        .catch(error => next(new DatabaseError(error, 400)))
     }
 
     return Sample
@@ -93,7 +88,7 @@ module.exports = {
         order: [['updatedAt', 'DESC']]
       })
       .then(samples => res.status(200).send(samples))
-      .catch(error => res.status(400).send(error))
+      .catch(error => next(new DatabaseError(error, 400)))
   }
 
 }

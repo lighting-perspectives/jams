@@ -1,27 +1,25 @@
 const Instrument = require('../models').Instrument
 const InstrumentMapping = require('../models').InstrumentMapping
-
 const uuidv4 = require('uuid/v4')
+const DatabaseError = require('../errors/DatabaseError')
 
 module.exports = {
-  create (req, res) {
+  create (req, res, next) {
     return Instrument
       .create({
         id: uuidv4(),
         label: req.body.label
       })
       .then(instrument => res.status(201).send(instrument))
-      .catch(error => res.status(400).send(error))
+      .catch(error => next(new DatabaseError(error, 400)))
   },
 
-  update (req, res) {
+  update (req, res, next) {
     return Instrument
       .findById(req.params.id, {})
       .then(instrument => {
         if (!instrument) {
-          return res.status(404).send({
-            message: `Failed to retrieve instrument n°${req.params.id}`
-          })
+          next(new DatabaseError(null, 404, `Failed to retrieve instrument n°${req.params.id}`))
         }
 
         return instrument
@@ -29,29 +27,27 @@ module.exports = {
             label: req.body.label || instrument.label
           })
           .then(instrument => res.status(200).send(instrument))
-          .catch(error => res.status(400).send(error))
+          .catch(error => next(new DatabaseError(error, 400)))
       })
-      .catch(error => res.status(400).send(error))
+      .catch(error => next(new DatabaseError(error, 400)))
   },
 
-  destroy (req, res) {
+  destroy (req, res, next) {
     return Instrument
       .findById(req.params.id)
       .then(instrument => {
         if (!instrument) {
-          return res.status(404).send({
-            message: `Failed to retrieve instrument n°${req.params.id}`
-          })
+          next(new DatabaseError(null, 404, `Failed to retrieve instrument n°${req.params.id}`))
         }
         return instrument
           .destroy()
           .then(() => res.status(204).send())
-          .catch(error => res.status(400).send(error))
+          .catch(error => next(new DatabaseError(error, 400)))
       })
-      .catch(error => res.status(400).send(error))
+      .catch(error => next(new DatabaseError(error, 400)))
   },
 
-  findById (req, res) {
+  findById (req, res, next) {
     return Instrument
       .findById(req.params.id, {
         include: [{
@@ -61,17 +57,15 @@ module.exports = {
       })
       .then(instrument => {
         if (!instrument) {
-          return res.status(404).send({
-            message: `Failed to retrieve instrument n°${req.params.id}`
-          })
+          next(new DatabaseError(null, 404, `Failed to retrieve instrument n°${req.params.id}`))
         }
 
         return res.status(200).send(instrument)
       })
-      .catch(error => res.status(400).send(error))
+      .catch(error => next(new DatabaseError(error, 400)))
   },
 
-  findAll (req, res) {
+  findAll (req, res, next) {
     return Instrument
       .all({
         include: [{
@@ -81,6 +75,6 @@ module.exports = {
         order: [['updatedAt', 'DESC']]
       })
       .then(instruments => res.status(200).send(instruments))
-      .catch(error => res.status(400).send(error))
+      .catch(error => next(new DatabaseError(error, 400)))
   }
 }

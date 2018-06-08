@@ -1,17 +1,15 @@
 const InstrumentMapping = require('../models').InstrumentMapping
 const Instrument = require('../models').Instrument
-
 const uuidv4 = require('uuid/v4')
+const DatabaseError = require('../errors/DatabaseError')
 
 module.exports = {
-  create (req, res) {
+  create (req, res, next) {
     return Instrument
       .findById(req.params.instrumentId, {})
       .then(instrument => {
         if (!instrument) {
-          return res.status(404).send({
-            message: `Failed to retrieve instrument n°${req.params.instrumentId}`
-          })
+          next(new DatabaseError(null, 404, `Failed to retrieve instrument n°${req.params.id}`))
         }
 
         return InstrumentMapping
@@ -24,19 +22,17 @@ module.exports = {
             instrumentId: req.params.instrumentId
           })
           .then(instrument => res.status(201).send(instrument))
-          .catch(error => res.status(400).send(error))
+          .catch(error => next(new DatabaseError(error, 400)))
       })
-      .catch(error => res.status(400).send(error))
+      .catch(error => next(new DatabaseError(error, 400)))
   },
 
-  update (req, res) {
+  update (req, res, next) {
     return InstrumentMapping
       .findById(req.params.id, {})
       .then(mapping => {
         if (!mapping) {
-          return res.status(404).send({
-            message: `Failed to retrieve instrument mapping n°${req.params.id}`
-          })
+          next(new DatabaseError(null, 404, `Failed to retrieve instrument mapping n°${req.params.id}`))
         }
 
         return mapping
@@ -48,51 +44,45 @@ module.exports = {
             instrumentId: req.body.instrumentId || mapping.instrumentId
           })
           .then(mapping => res.status(200).send(mapping))
-          .catch(error => res.status(400).send(error))
+          .catch(error => next(new DatabaseError(error, 400)))
       })
-      .catch(error => res.status(400).send(error))
+      .catch(error => next(new DatabaseError(error, 400)))
   },
 
-  destroy (req, res) {
+  destroy (req, res, next) {
     return InstrumentMapping
       .findById(req.params.id)
       .then(mapping => {
         if (!mapping) {
-          return res.status(404).send({
-            message: `Failed to retrieve instrument mapping n°${req.params.id}`
-          })
+          next(new DatabaseError(null, 404, `Failed to retrieve instrument mapping n°${req.params.id}`))
         }
         return mapping
           .destroy()
           .then(() => res.status(204).send())
-          .catch(error => res.status(400).send(error))
+          .catch(error => next(new DatabaseError(error, 400)))
       })
-      .catch(error => res.status(400).send(error))
+      .catch(error => next(new DatabaseError(error, 400)))
   },
 
-  findById (req, res) {
+  findById (req, res, next) {
     return InstrumentMapping
       .findById(req.params.id, {})
       .then((mapping) => {
         if (!mapping) {
-          return res.status(404).send({
-            message: `Failed to retrieve instrument mapping n°${req.params.id}`
-          })
+          next(new DatabaseError(null, 404, `Failed to retrieve instrument mapping n°${req.params.id}`))
         }
 
         return res.status(200).send(mapping)
       })
-      .catch(error => res.status(400).send(error))
+      .catch(error => next(new DatabaseError(error, 400)))
   },
 
-  findAll (req, res) {
+  findAll (req, res, next) {
     return Instrument
       .findById(req.params.instrumentId, {})
       .then(instrument => {
         if (!instrument) {
-          return res.status(404).send({
-            message: `Failed to retrieve instrument n°${req.params.instrumentId}`
-          })
+          next(new DatabaseError(null, 404, `Failed to retrieve instrument mapping n°${req.params.id}`))
         }
 
         return InstrumentMapping
@@ -101,8 +91,8 @@ module.exports = {
             order: [['updatedAt', 'DESC']]
           })
           .then(mappings => res.status(200).send(mappings))
-          .catch(error => res.status(400).send(error))
+          .catch(error => next(new DatabaseError(error, 400)))
       })
-      .catch(error => res.status(400).send(error))
+      .catch(error => next(new DatabaseError(error, 400)))
   }
 }
