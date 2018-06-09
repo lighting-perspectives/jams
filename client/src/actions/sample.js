@@ -137,17 +137,6 @@ export function updateSample (id, formData) {
   }
 }
 
-function checkResponse (res) {
-  console.log('response ok ?', res)
-  if (res.ok) {
-    return res
-  }
-
-  res.json().then(result => {
-    throw Error(result.msg)
-  })
-}
-
 export function resetUpdatedSample () {
   return {
     type: RESET_UPDATED_SAMPLE
