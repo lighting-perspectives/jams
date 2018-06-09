@@ -2,17 +2,15 @@ import React from 'react'
 import { Container, Header } from 'semantic-ui-react'
 
 import SampleViewList from './SampleViewList'
-import FormSampleNew from './FormSampleNew'
+import SampleForm from './SampleForm'
+import SampleUpdateForm from './SampleUpdateForm'
 
-const SampleViewLayout = ({samples, updateSampleList}) => (
+const SampleViewLayout = () => (
   <Container style={{marginTop: '3em'}}>
     <Header as='h2'>Sample List</Header>
-
-    <SampleViewList
-      samples={samples} />
-
-    <FormSampleNew
-      updateSampleList={updateSampleList} />
+    <SampleForm />
+    <SampleUpdateForm />
+    <SampleViewList />
   </Container>
 )
 

@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import { Route } from 'react-router-dom'
 
 import MainHeader from './components/MainHeader'
@@ -8,20 +8,16 @@ import Dashboard from './components/Dashboard'
 import Session from './components/Session'
 import Admin from './components/admin/Admin'
 
-class App extends Component {
-  render () {
-    return (
-      <div>
-        <MainHeader />
+const App = () => (
+  <div>
+    <MainHeader />
 
-        <Route exact path='/' component={Home} />
-        <Route path='/dashboard' component={Dashboard} />
-        <Route path='/session' component={Session} />
-        <Route path='/admin' component={Admin} />
+    <Route exact path='/' component={Home} />
+    <Route path='/dashboard' component={Dashboard} />
+    <Route path='/session' component={Session} />
+    <Route path='/admin' component={Admin} />
 
-      </div>
-    )
-  }
-}
+  </div>
+)
 
 export default App
