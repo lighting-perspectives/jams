@@ -7,12 +7,12 @@ import './SampleViewList.css'
 import { BASE_URL } from '../../api'
 import { deleteSample, fetchSamples, resetDeletedSample, selectSampleToUpdate } from '../../actions/sample'
 
-const onIconClick = sample => {
-  let audio = new Tone.Player(`${BASE_URL}/static/audio/${sample.filename}`).toMaster()
-  audio.autostart = true // play as soon as the buffer is loaded
-}
-
 class SampleViewList extends Component {
+  static handleIconClick (sample) {
+    let audio = new Tone.Player(`${BASE_URL}/static/audio/${sample.filename}`).toMaster()
+    audio.autostart = true // play as soon as the buffer is loaded
+  }
+
   componentDidMount () {
     this.props.fetchSamples()
   }
@@ -21,17 +21,14 @@ class SampleViewList extends Component {
     const {
       sampleList,
       deletedSample,
-      updatedSample,
-      deleteSample,
-      resetDeletedSample,
-      selectSampleToUpdate
+      updatedSample
     } = this.props
     return (
       <List celled>
         <Loader active={sampleList.loading} />
         <TransitionablePortal
           open={deletedSample.sample !== null}
-          onClose={resetDeletedSample}
+          onClose={this.props.resetDeletedSample}
         >
           <Message warning style={{ left: '40%', position: 'fixed', top: '50%', zIndex: 1000 }}>
             <Message.Header>Sample removed - {deletedSample.sample ? deletedSample.sample.label : ''}</Message.Header>
@@ -51,7 +48,7 @@ class SampleViewList extends Component {
                   size='big'
                   color='violet'
                   name='file audio outline'
-                  onClick={() => onIconClick(s)}
+                  onClick={() => SampleViewList.handleIconClick(s)}
                   link
                 />
               }
@@ -61,9 +58,9 @@ class SampleViewList extends Component {
               icon='delete'
               floated='right'
               loading={deletedSample.loading}
-              onClick={() => deleteSample(s)}
+              onClick={() => this.props.deleteSample(s)}
             />
-            <List.Content onClick={() => selectSampleToUpdate(s)}>
+            <List.Content onClick={() => this.props.selectSampleToUpdate(s)}>
               <List.Header><h4>{s.filename}</h4> {s.path}</List.Header>
               <List.Description>
                 Created: {s.createdAt} — Updated: {s.updatedAt} <br />
@@ -79,7 +76,7 @@ class SampleViewList extends Component {
   }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
     sampleList: state.samples.sampleList,
     deletedSample: state.samples.deletedSample,
@@ -87,7 +84,7 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
+const mapDispatchToProps = (dispatch) => ({
   fetchSamples: () => {
     dispatch(fetchSamples())
   },
