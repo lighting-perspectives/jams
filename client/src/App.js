@@ -6,7 +6,7 @@ import MainHeader from './components/MainHeader'
 import Home from './components/Home'
 import Dashboard from './components/Dashboard'
 import Session from './components/Session'
-import Admin from './components/admin/Admin'
+import AdminPage from './components/admin/AdminPage'
 
 const App = () => (
   <div>
@@ -15,7 +15,7 @@ const App = () => (
     <Route exact path='/' component={Home} />
     <Route path='/dashboard' component={Dashboard} />
     <Route path='/session' component={Session} />
-    <Route path='/admin' component={Admin} />
+    <Route path='/admin' component={AdminPage} />
 
   </div>
 )

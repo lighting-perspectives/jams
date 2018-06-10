@@ -5,13 +5,13 @@ import SampleViewList from './SampleViewList'
 import SampleForm from './SampleForm'
 import SampleUpdateForm from './SampleUpdateForm'
 
-const SampleViewLayout = () => (
+const SampleLayout = () => (
   <Container style={{marginTop: '3em'}}>
-    <Header as='h2'>Sample List</Header>
+    <Header as='h3'>Sample List</Header>
     <SampleForm />
     <SampleUpdateForm />
     <SampleViewList />
   </Container>
 )
 
-export default SampleViewLayout
+export default SampleLayout
