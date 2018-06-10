@@ -1,5 +1,4 @@
 const Sample = require('../models').Sample
-const uuidv4 = require('uuid/v4')
 const DatabaseError = require('../errors/DatabaseError')
 
 const DEFAULT = {
@@ -11,11 +10,11 @@ module.exports = {
   create (req, res, next) {
     return Sample
       .create({
-        id: uuidv4(),
-        path: req.file.path,
-        filename: req.file.filename,
+        id: req.uuid, // from generateID custom middleware
+        path: req.file.path, // from multer middleware
+        filename: req.file.originalname, // from multer middleware
         container: req.body.container || DEFAULT.CONTAINER,
-        label: req.body.label || req.file.filename,
+        label: req.body.label || req.file.originalname,
         group: req.body.group || DEFAULT.GROUP
       })
       .then(sample => res.status(201).send(sample))

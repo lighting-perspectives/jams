@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-const createSample = require('../form/createSample')
+const middlewares = require('../middlewares')
 
 const samplesController = require('../controllers').samples
 const instrumentController = require('../controllers').instruments
@@ -22,23 +22,11 @@ router.get('/', function (req, res, next) {
 
 // router.param('id', todosValidation.checkId)
 
-// router.post('/todos', createTodoData, todosValidation.createCheck, todosController.create)
-// router.put('/todos/:id', todosValidation.updateCheck, todosController.update)
-// router.delete('/todos/:id', todosController.destroy)
-// router.get('/todos', todosController.findAll)
-// router.get('/todos/:id', todosController.findById)
-
-// router.get('/items', todoItemsController.findAll)
-// router.get('/todos/:id/items', todoItemsController.findByTodoId)
-// router.post('/todos/:id/items', todoItemsController.create)
-// router.put('/todos/:todoId/items/:id', todoItemsController.update)
-// router.delete('/todos/:todoId/items/:id', todoItemsController.destroy)
-
 // Sample
 router.get('/samples', samplesController.findAll)
-router.post('/samples', createSample, samplesController.create)
+router.post('/samples', middlewares.generateUUID, middlewares.sample.multer, samplesController.create)
 router.get('/samples/:id', samplesController.findById)
-router.put('/samples/:id', createSample, samplesController.update)
+router.put('/samples/:id', middlewares.sample.multer, samplesController.update)
 router.delete('/samples/:id', samplesController.destroy)
 
 // Instrument
