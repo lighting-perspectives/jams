@@ -12,7 +12,7 @@ try {
   doSomethingBad()
 } catch (err) {
   // The name property should be set to the error's name
-  assert(err.name = 'NotAudioFileError')
+  assert(err.name === 'NotAudioFileError')
 
   // The error should be an instance of its class
   assert(err instanceof NotAudioFileError)
@@ -28,11 +28,11 @@ try {
 
   // toString should return the default error message formatting
   assert.strictEqual(err.toString(),
-    'NotAudioFileError: The given file is not an audio file')
+    'NotAudioFileError: The given file is not a supported audio file, supported extensions are: wav.')
 
   // The stack should start with the default error message formatting
   assert.strictEqual(err.stack.split('\n')[0],
-    'NotAudioFileError: The given file is not an audio file')
+    'NotAudioFileError: The given file is not a supported audio file, supported extensions are: wav.')
 
   // The first stack frame should be the function where the error was thrown.
   assert.strictEqual(err.stack.split('\n')[1].indexOf('doSomethingBad'), 7)
