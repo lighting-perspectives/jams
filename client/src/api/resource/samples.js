@@ -1,7 +1,5 @@
 /* eslint-disable no-undef */
-const BASE_URL = // location.href.indexOf('localhost') > 0 ?
-  'http://localhost:3000/api'
-  // : '/api'
+import { BASE_URL } from '../index'
 
 export function getSamples () {
   return fetch(`${BASE_URL}/samples`)

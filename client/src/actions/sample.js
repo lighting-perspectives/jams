@@ -1,11 +1,11 @@
 import api from '../api'
 
 import {
-  FETCH_SAMPLES, FETCH_SAMPLES_SUCCESS, FETCH_SAMPLES_FAILURE, RESET_SAMPLES,
+  FETCH_SAMPLES, FETCH_SAMPLES_SUCCESS, FETCH_SAMPLES_FAILURE,
   CREATE_SAMPLE, CREATE_SAMPLE_SUCCESS, CREATE_SAMPLE_FAILURE, RESET_NEW_SAMPLE,
   SELECT_SAMPLE_TO_UPDATE, UPDATE_SAMPLE, UPDATE_SAMPLE_SUCCESS, UPDATE_SAMPLE_FAILURE, RESET_UPDATED_SAMPLE,
   DELETE_SAMPLE, DELETE_SAMPLE_SUCCESS, DELETE_SAMPLE_FAILURE, RESET_DELETED_SAMPLE
-} from './actionTypes'
+} from './types/samples'
 
 function fetchSamplesSuccess (samples) {
   return {
@@ -39,12 +39,6 @@ export function fetchSamples () {
       .catch(error => {
         dispatch(fetchSamplesFailure(error))
       })
-  }
-}
-
-export function resetSamples () {
-  return {
-    type: RESET_SAMPLES
   }
 }
 

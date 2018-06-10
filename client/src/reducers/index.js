@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
-import samples from './samples'
+import instrumentReducer from './instrumentReducer'
+import sampleReducer from './sampleReducer'
 
 const rootReducer = combineReducers({
   samples
