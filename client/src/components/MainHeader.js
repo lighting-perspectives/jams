@@ -5,7 +5,6 @@ import logo from '../logo.svg'
 import './MainHeader.css'
 
 const MainHeader = ({location}) => {
-  console.log('location', location)
   return (
     <Menu fixed='top' inverted>
       <Menu.Item as='a' header>
@@ -41,7 +40,7 @@ const MainHeader = ({location}) => {
       <Menu.Item
         as={Link}
         to='/admin'
-        active={/^\/admin$/.test(location.pathname)}
+        active={/^\/admin/.test(location.pathname)}
       >
         Admin
       </Menu.Item>
