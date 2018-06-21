@@ -27,6 +27,7 @@
     "pug": "2.0.0-beta11",
     "sequelize": "^4.37.6",
     "sequelize-cli": "^4.0.0",
+    "sequelize-mock": "^0.10.2",
     "swagger-ui-express": "^3.0.9",
     "uuid": "^3.2.1"
   },
