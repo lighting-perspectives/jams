@@ -3,3 +3,4 @@
 .env
 
 docker/db/data
+/server/test/data/audio/
