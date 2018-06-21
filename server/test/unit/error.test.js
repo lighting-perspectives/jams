@@ -28,11 +28,11 @@ try {
 
   // toString should return the default error message formatting
   assert.strictEqual(err.toString(),
-    'NotAudioFileError: The given file is not a supported audio file, supported extensions are: wav.')
+    'NotAudioFileError: The given file is not a supported audio file, supported extensions are: wav, mp3.')
 
   // The stack should start with the default error message formatting
   assert.strictEqual(err.stack.split('\n')[0],
-    'NotAudioFileError: The given file is not a supported audio file, supported extensions are: wav.')
+    'NotAudioFileError: The given file is not a supported audio file, supported extensions are: wav, mp3.')
 
   // The first stack frame should be the function where the error was thrown.
   assert.strictEqual(err.stack.split('\n')[1].indexOf('doSomethingBad'), 7)
