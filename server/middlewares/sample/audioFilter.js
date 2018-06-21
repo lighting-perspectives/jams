@@ -2,9 +2,9 @@ const audio = require('../../audio')
 const NotAudioFileError = require('../../errors/NotAudioFileError')
 
 /**
- * Check audio file extension. Used in multer middleware.
+ * Filters audio file and checks file extension.
  *
- * @see middlewares.sample.multer
+ * @see middlewares/sample/multer
  *
  * @param req
  * @param file The uploaded file

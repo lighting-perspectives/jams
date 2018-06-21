@@ -5,7 +5,9 @@ const destination = require('./destination')
 const filename = require('./filename')
 
 /**
- * Set destination and filename of the uploaded file.
+ * Sets destination and filename of the uploaded file, filters audio file.
+ *
+ * @see middlewares/sample/multer
  *
  * @type {*|DiskStorage}
  */
