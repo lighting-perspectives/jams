@@ -114,7 +114,10 @@ describe('/api/mappings', () => {
       .expect(404)
       .then((res) => {
         expect(res.body, 'body should be a object').to.be.an('object')
-        expect(res.body.message, 'expected error message').to.equal('Failed to retrieve instrument mapping n°bb459a9e-0d2c-4da1-b538-88ea43d30f8c')
+        expect(res.body).to.include({
+          msg: 'Failed to retrieve instrument mapping n°bb459a9e-0d2c-4da1-b538-88ea43d30f8c',
+          name: 'DatabaseError'
+        })
       })
   })
 
@@ -135,7 +138,10 @@ describe('/api/mappings', () => {
       .expect(404)
       .then((res) => {
         expect(res.body, 'body should be a object').to.be.an('object')
-        expect(res.body.message, 'expected error message').to.equal('Failed to retrieve instrument mapping n°bb459a9e-0d2c-4da1-b538-88ea43d30f8c')
+        expect(res.body).to.include({
+          msg: 'Failed to retrieve instrument mapping n°bb459a9e-0d2c-4da1-b538-88ea43d30f8c',
+          name: 'DatabaseError'
+        })
       })
   })
 })

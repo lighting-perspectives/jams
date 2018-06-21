@@ -20,18 +20,23 @@ describe('/api/instruments', () => {
     return require('../../models').sequelize
       .sync({force: true, logging: false})
       .then(() => {
-        console.log('db synced')
+        console.log('--Db synced')
         return this.Sample
           .bulkCreate(fixtures.samples)
+          .catch(error => { throw error })
       })
       .then(samples => {
         return this.Instrument
           .bulkCreate(fixtures.instruments)
+          .catch(error => { throw error })
       })
       .then(instruments => {
-        return this.InstrumentMapping.bulkCreate(fixtures.instrumentMappings)
+        return this.InstrumentMapping
+          .bulkCreate(fixtures.instrumentMappings)
+          .catch(error => { throw error })
       })
-      .then(() => console.log('Fixtures loaded'))
+      .then(() => console.log('--Fixtures loaded'))
+      .catch(error => { throw error })
   })
 
   it('should return 200 on GET /api/instruments', () => {
@@ -41,7 +46,7 @@ describe('/api/instruments', () => {
       .expect('Content-Type', /json/)
       .expect(200)
       .then((res) => {
-        expect(res.body, 'body should be an array').to.be.an('array')
+        expect(res.body).to.be.an('array')
         expect(res.body, 'body should contain 3 items').to.have.lengthOf(3)
         expect(res.body[0], 'item 0 should be an object').to.be.an('object')
         expect(res.body[0].mappings, 'item 0 \'s mappings should be an array').to.be.an('array')
@@ -70,8 +75,11 @@ describe('/api/instruments', () => {
       .expect('Content-Type', /json/)
       .expect(404)
       .then((res) => {
-        expect(res.body, 'body should be an array').to.be.an('object')
-        expect(res.body.message, 'expected an error message').to.equal('Failed to retrieve instrument n°bb459a9e-0d2c-4da1-b538-88ea43d30f8c')
+        expect(res.body).to.be.an('object')
+        expect(res.body).to.include({
+          msg: 'Failed to retrieve instrument n°bb459a9e-0d2c-4da1-b538-88ea43d30f8c',
+          name: 'DatabaseError'
+        })
       })
   })
 
@@ -83,7 +91,7 @@ describe('/api/instruments', () => {
       .expect('Content-Type', /json/)
       .expect(201)
       .then((res) => {
-        expect(res.body, 'body should be an object').to.be.an('object')
+        expect(res.body).to.be.an('object')
         expect(res.body.label, 'label should equal foo').to.equal('foo')
       })
   })
@@ -96,12 +104,12 @@ describe('/api/instruments', () => {
       .expect('Content-Type', /json/)
       .expect(200)
       .then((res) => {
-        expect(res.body, 'body should be an object').to.be.an('object')
+        expect(res.body).to.be.an('object')
         expect(res.body.label, 'label should equal bar').to.equal('bar')
       })
   })
 
-  it('should return 4040 on PUT when id is unknown', () => {
+  it('should return 404 on PUT when id is unknown', () => {
     return request(app)
       .put('/api/instruments/bb459a9e-0d2c-4da1-b538-88ea43d30f8c')
       .send({label: 'baz'})
@@ -109,8 +117,11 @@ describe('/api/instruments', () => {
       .expect('Content-Type', /json/)
       .expect(404)
       .then((res) => {
-        expect(res.body, 'body should be an object').to.be.an('object')
-        expect(res.body.message, 'expected error message').to.equal('Failed to retrieve instrument n°bb459a9e-0d2c-4da1-b538-88ea43d30f8c')
+        expect(res.body).to.be.an('object')
+        expect(res.body).to.include({
+          msg: 'Failed to retrieve instrument n°bb459a9e-0d2c-4da1-b538-88ea43d30f8c',
+          name: 'DatabaseError'
+        })
       })
   })
 })

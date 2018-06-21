@@ -9,6 +9,7 @@ const cors = require('cors')
 const indexRouter = require('./routes/index')
 const usersRouter = require('./routes/users')
 const apiRouter = require('./routes/api')
+const sampleRouter = require('./routes/api/samples')
 
 const app = express()
 
@@ -33,6 +34,7 @@ app.use('/static', express.static(path.join(__dirname, 'static')))
 app.use('/', indexRouter)
 app.use('/users', usersRouter)
 app.use('/api', apiRouter)
+app.use('/api/samples', sampleRouter)
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
 

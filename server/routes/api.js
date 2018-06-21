@@ -1,18 +1,10 @@
 const express = require('express')
 const router = express.Router()
 
-const middlewares = require('../middlewares')
+// const middlewares = require('../middlewares')
 
-const samplesController = require('../controllers').samples
 const instrumentController = require('../controllers').instruments
 const instrumentMappingsController = require('../controllers').instrumentMappings
-
-// const todosController = require('../controllers').todos
-
-// const todoItemsController = require('../controllers').todoItems
-
-// const todosValidation = require('../validation').todos
-// const createTodoData = require('../form/createTodos')
 
 router.get('/', function (req, res, next) {
   res.status(200).send({
@@ -23,11 +15,33 @@ router.get('/', function (req, res, next) {
 // router.param('id', todosValidation.checkId)
 
 // Sample
-router.get('/samples', samplesController.findAll)
-router.post('/samples', middlewares.generateUUID, middlewares.sample.multer, samplesController.create)
-router.get('/samples/:id', samplesController.findById)
-router.put('/samples/:id', middlewares.sample.multer, samplesController.update)
-router.delete('/samples/:id', samplesController.destroy)
+// router.get('/samples',
+//   middlewares.sampleFindAll,
+//   middlewares.sampleAddInfos,
+//   middlewares.sampleSend
+// )
+// router.post('/samples',
+//   middlewares.generateUUID,
+//   middlewares.sampleMulter,
+//   middlewares.sampleCreate,
+//   middlewares.sampleAddInfos,
+//   middlewares.sampleSend
+// )
+// router.get('/samples/:id',
+//   middlewares.sampleFindById,
+//   middlewares.sampleAddInfos,
+//   middlewares.sampleSend
+// )
+// router.put('/samples/:id',
+//   middlewares.sampleMulter,
+//   middlewares.sampleUpdate,
+//   middlewares.sampleAddInfos,
+//   middlewares.sampleSend
+// )
+// router.delete('/samples/:id',
+//   middlewares.sampleDestroy,
+//   middlewares.sampleSend
+// )
 
 // Instrument
 router.get('/instruments', instrumentController.findAll)
