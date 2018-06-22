@@ -5,5 +5,9 @@ export default {
     updatedSample: {sample: null, error: null, loading: false, updated: false},
     activeSample: {sample: null, error: null, loading: false},
     deletedSample: {sample: null, error: null, loading: false}
+  },
+  instruments: {
+    instrumentList: {instruments: [], error: null, loading: false},
+    deletedInstrument: {instrument: null, error: null, loading: false}
   }
 }

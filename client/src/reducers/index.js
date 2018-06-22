@@ -3,7 +3,8 @@ import instrumentReducer from './instrumentReducer'
 import sampleReducer from './sampleReducer'
 
 const rootReducer = combineReducers({
-  samples
+  samples: sampleReducer,
+  instruments: instrumentReducer
 })
 
 export default rootReducer
