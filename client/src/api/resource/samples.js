@@ -1,14 +1,15 @@
 /* eslint-disable no-undef */
 import { BASE_URL } from '../index'
+import { checkResponse } from '../utils'
 
 export function getSamples () {
-  return fetch(`${BASE_URL}/samples`)
+  return fetch(`${BASE_URL}/api/samples`)
     .then(res => res.json())
     .catch(error => { throw (error) })
 }
 
 export function postSamples (formData) {
-  return fetch(`${BASE_URL}/samples`, {
+  return fetch(`${BASE_URL}/api/samples`, {
     method: 'POST',
     body: formData
   })
@@ -18,7 +19,7 @@ export function postSamples (formData) {
 }
 
 export function putSamples (id, formData) {
-  return fetch(`${BASE_URL}/samples/${id}`, {
+  return fetch(`${BASE_URL}/api/samples/${id}`, {
     method: 'PUT',
     body: formData
   })
@@ -28,19 +29,8 @@ export function putSamples (id, formData) {
 }
 
 export function deleteSamples (data) {
-  return fetch(`${BASE_URL}/samples/${data.id}`, {
+  return fetch(`${BASE_URL}/api/samples/${data.id}`, {
     method: 'DELETE'
   })
     .catch(error => { throw (error) })
-}
-
-function checkResponse (res) {
-  console.log('response ok ?', res)
-  if (res.ok) {
-    return res
-  }
-
-  res.json().then(result => {
-    throw Error(result.msg)
-  })
 }
