@@ -2,7 +2,9 @@ import api from '../api'
 
 import {
   FETCH_SAMPLES, FETCH_SAMPLES_SUCCESS, FETCH_SAMPLES_FAILURE,
+  SHOW_NEW_SAMPLE_MODAL, CLOSE_NEW_SAMPLE_MODAL,
   CREATE_SAMPLE, CREATE_SAMPLE_SUCCESS, CREATE_SAMPLE_FAILURE, RESET_NEW_SAMPLE,
+  SHOW_EDIT_SAMPLE_MODAL, CLOSE_EDIT_SAMPLE_MODAL,
   SELECT_SAMPLE_TO_UPDATE, UPDATE_SAMPLE, UPDATE_SAMPLE_SUCCESS, UPDATE_SAMPLE_FAILURE, RESET_UPDATED_SAMPLE,
   DELETE_SAMPLE, DELETE_SAMPLE_SUCCESS, DELETE_SAMPLE_FAILURE, RESET_DELETED_SAMPLE
 } from './types/samples'
@@ -42,6 +44,18 @@ export function fetchSamples () {
   }
 }
 
+export function createSampleShowModal () {
+  return {
+    type: SHOW_NEW_SAMPLE_MODAL
+  }
+}
+
+export function createSampleCloseModal () {
+  return {
+    type: CLOSE_NEW_SAMPLE_MODAL
+  }
+}
+
 function createSampleSuccess (sample) {
   return {
     type: CREATE_SAMPLE_SUCCESS,
@@ -73,6 +87,9 @@ export function createSample (formData) {
       .then(() => {
         dispatch(fetchSamples())
       })
+      .then(() => {
+        dispatch(createSampleCloseModal())
+      })
       .catch(error => {
         console.log('error', error)
         dispatch(createSampleFailure(error))
@@ -83,6 +100,19 @@ export function createSample (formData) {
 export function resetNewSample () {
   return {
     type: RESET_NEW_SAMPLE
+  }
+}
+
+export function updateSampleShowModal (sample) {
+  return {
+    type: SHOW_EDIT_SAMPLE_MODAL,
+    payload: sample
+  }
+}
+
+export function updateSampleCloseModal () {
+  return {
+    type: CLOSE_EDIT_SAMPLE_MODAL
   }
 }
 
@@ -123,6 +153,9 @@ export function updateSample (id, formData) {
       })
       .then(() => {
         dispatch(fetchSamples())
+      })
+      .then(() => {
+        dispatch(updateSampleCloseModal())
       })
       .catch(error => {
         console.log('error', error)

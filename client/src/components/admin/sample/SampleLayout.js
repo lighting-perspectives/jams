@@ -1,16 +1,18 @@
 import React from 'react'
 import { Header } from 'semantic-ui-react'
 
-import SampleViewList from './SampleViewList'
-import SampleForm from './SampleForm'
+import SampleList from './SampleList'
+import SampleCreateForm from './SampleCreateForm'
 import SampleUpdateForm from './SampleUpdateForm'
+import SampleCreateButton from './SampleCreateButton'
 
 const SampleLayout = () => (
   <div>
     <Header as='h3'>Sample List</Header>
-    <SampleForm />
+    <SampleCreateButton />
+    <SampleCreateForm />
     <SampleUpdateForm />
-    <SampleViewList />
+    <SampleList />
   </div>
 )
 
