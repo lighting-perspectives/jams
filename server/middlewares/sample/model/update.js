@@ -26,7 +26,7 @@ const update = (Sample) => {
         return sample
           .update({
             path: (req.file ? req.file.path : null) || sample.path,
-            filename: (req.file ? req.file.filename : null) || sample.filename,
+            filename: (req.file ? req.file.originalname : null) || sample.filename,
             label: req.body.label || sample.label,
             group: req.body.group || sample.group
           })
