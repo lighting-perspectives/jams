@@ -37,15 +37,12 @@ export default function instrumentReducer (state = initialState.instruments, act
 
   switch (action.type) {
     case FETCH_INSTRUMENTS:
-      console.log(action.type, action.payload)
       return {...state, instrumentList: {instruments: [], error: null, loading: true}}
 
     case FETCH_INSTRUMENTS_SUCCESS:
-      console.log(action.type, action.payload)
       return {...state, instrumentList: {instruments: action.payload, error: null, loading: false}}
 
     case FETCH_INSTRUMENTS_FAILURE:
-      console.log(action.type, action.payload)
       error = action.payload || {message: action.payload.message} // 2nd one is network or server down errors
       return {...state, instrumentList: {instruments: [], error, loading: false}}
 
@@ -88,20 +85,16 @@ export default function instrumentReducer (state = initialState.instruments, act
       return {...state, updatedInstrument: {instrument: null, error: null, loading: false, open: false, updated: false}}
 
     case DELETE_INSTRUMENT:
-      console.log(action.type, action.payload)
       return {...state, deletedInstrument: {...state.deletedInstrument, loading: true}}
 
     case DELETE_INSTRUMENT_SUCCESS:
-      console.log(action.type, action.payload)
       return {...state, deletedInstrument: {instrument: action.payload, error: null, loading: false}}
 
     case DELETE_INSTRUMENT_FAILURE:
-      console.log(action.type, action.payload)
       error = action.payload || {message: action.payload.message} // 2nd one is network or server down errors
       return {...state, deletedInstrument: {instrument: null, error, loading: false}}
 
     case RESET_DELETED_INSTRUMENT:
-      console.log(action.type, action.payload)
       return {...state, deletedInstrument: {instrument: null, error: null, loading: false}}
 
     case NEW_MAPPING_OPEN_MODAL:
