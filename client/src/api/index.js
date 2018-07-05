@@ -1,5 +1,8 @@
 import { deleteSamples, getSamples, postSamples, putSamples } from './resource/samples'
-import { getInstruments, deleteInstruments } from './resource/instruments'
+import {
+  getInstruments, postInstruments, putInstruments, deleteInstruments,
+  postInstrumentsMappings, deleteMappings
+} from './resource/instruments'
 
 export default {
   getSamples,
@@ -7,7 +10,11 @@ export default {
   putSamples,
   deleteSamples,
   getInstruments,
-  deleteInstruments
+  postInstruments,
+  putInstruments,
+  deleteInstruments,
+  postInstrumentsMappings,
+  deleteMappings
 }
 
 export const BASE_URL = 'http://localhost:3000'
