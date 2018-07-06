@@ -9,7 +9,7 @@ module.exports = {
       .findById(req.params.instrumentId, {})
       .then(instrument => {
         if (!instrument) {
-          next(new DatabaseError(null, 404, `Failed to retrieve instrument n°${req.params.id}`))
+          return next(new DatabaseError(null, 404, `Failed to retrieve instrument n°${req.params.id}`))
         }
 
         return InstrumentMapping
@@ -32,7 +32,7 @@ module.exports = {
       .findById(req.params.id, {})
       .then(mapping => {
         if (!mapping) {
-          next(new DatabaseError(null, 404, `Failed to retrieve instrument mapping n°${req.params.id}`))
+          return next(new DatabaseError(null, 404, `Failed to retrieve instrument mapping n°${req.params.id}`))
         }
 
         return mapping
@@ -54,7 +54,7 @@ module.exports = {
       .findById(req.params.id)
       .then(mapping => {
         if (!mapping) {
-          next(new DatabaseError(null, 404, `Failed to retrieve instrument mapping n°${req.params.id}`))
+          return next(new DatabaseError(null, 404, `Failed to retrieve instrument mapping n°${req.params.id}`))
         }
         return mapping
           .destroy()
@@ -69,7 +69,7 @@ module.exports = {
       .findById(req.params.id, {})
       .then((mapping) => {
         if (!mapping) {
-          next(new DatabaseError(null, 404, `Failed to retrieve instrument mapping n°${req.params.id}`))
+          return next(new DatabaseError(null, 404, `Failed to retrieve instrument mapping n°${req.params.id}`))
         }
 
         return res.status(200).send(mapping)
@@ -82,7 +82,7 @@ module.exports = {
       .findById(req.params.instrumentId, {})
       .then(instrument => {
         if (!instrument) {
-          next(new DatabaseError(null, 404, `Failed to retrieve instrument mapping n°${req.params.id}`))
+          return next(new DatabaseError(null, 404, `Failed to retrieve instrument mapping n°${req.params.id}`))
         }
 
         return InstrumentMapping
