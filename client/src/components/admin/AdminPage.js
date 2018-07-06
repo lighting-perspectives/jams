@@ -1,9 +1,9 @@
 import React from 'react'
 import { Container, Menu } from 'semantic-ui-react'
 import { Link, Route } from 'react-router-dom'
-import SamplePage from './SamplePage'
+import SamplePage from './sample/SamplePage'
 import AdminHomePage from './AdminHomePage'
-import InstrumentPage from './InstrumentPage'
+import InstrumentPage from './instrument/InstrumentPage'
 
 const AdminPage = ({match, location}) => {
   return (
