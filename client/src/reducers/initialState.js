@@ -11,8 +11,8 @@ export default {
     newInstrument: {instrument: null, error: null, loading: false, open: false},
     updatedInstrument: {instrument: null, error: null, loading: false, updated: false},
     activeInstrument: {instrument: null, error: null, loading: false},
-    deletedInstrument: {instrument: null, error: null, loading: false},
+    deletedInstrument: {instrument: null, error: null, loading: false, open: false},
     newMapping: {instrumentId: null, mapping: null, error: null, loading: false, open: false},
-    deletedMapping: {mapping: null, error: null, loading: null, open: false, done: false}
+    deletedMapping: {mapping: null, error: null, loading: false, open: false, done: false}
   }
 }

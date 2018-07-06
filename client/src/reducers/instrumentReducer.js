@@ -29,7 +29,7 @@ import {
   UPDATE_INSTRUMENT_SUCCESS,
   UPDATE_INSTRUMENT_FAILURE,
   RESET_UPDATED_INSTRUMENT,
-  DELETE_MAPPING_OPEN_CONFIRM
+  DELETE_MAPPING_OPEN_CONFIRM, DELETE_INSTRUMENT_OPEN_CONFIRM
 } from './../actions/types/instruments'
 
 export default function instrumentReducer (state = initialState.instruments, action) {
@@ -84,6 +84,9 @@ export default function instrumentReducer (state = initialState.instruments, act
     case RESET_UPDATED_INSTRUMENT:
       return {...state, updatedInstrument: {instrument: null, error: null, loading: false, open: false, updated: false}}
 
+    case DELETE_INSTRUMENT_OPEN_CONFIRM:
+      return {...state, deletedInstrument: {...state.deletedInstrument, instrument: action.payload, open: true}}
+
     case DELETE_INSTRUMENT:
       return {...state, deletedInstrument: {...state.deletedInstrument, loading: true}}
 
@@ -95,7 +98,7 @@ export default function instrumentReducer (state = initialState.instruments, act
       return {...state, deletedInstrument: {instrument: null, error, loading: false}}
 
     case RESET_DELETED_INSTRUMENT:
-      return {...state, deletedInstrument: {instrument: null, error: null, loading: false}}
+      return {...state, deletedInstrument: {instrument: null, error: null, loading: false, open: false}}
 
     case NEW_MAPPING_OPEN_MODAL:
       return {...state, newMapping: {...state.newMapping, instrumentId: action.payload, open: true}}
@@ -123,14 +126,14 @@ export default function instrumentReducer (state = initialState.instruments, act
       return {...state, deletedMapping: {...state.deletedMapping, loading: true}}
 
     case DELETE_MAPPING_SUCCESS:
-      return {...state, deletedMapping: {mapping: action.payload, error: null, loading: false, done: true}}
+      return {...state, deletedMapping: {mapping: action.payload, error: null, loading: false}}
 
     case DELETE_MAPPING_FAILURE:
       error = action.payload || {message: action.payload.message} // 2nd one is network or server down errors
-      return {...state, deletedMapping: {mapping: null, error, loading: false, done: false}}
+      return {...state, deletedMapping: {mapping: null, error, loading: false}}
 
     case RESET_DELETED_MAPPING:
-      return {...state, deletedMapping: {mapping: null, error: null, loading: false, open: false, done: false}}
+      return {...state, deletedMapping: {mapping: null, error: null, loading: false, open: false}}
 
     default:
       return state

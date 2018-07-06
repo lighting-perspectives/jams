@@ -14,7 +14,7 @@ import {
   RESET_UPDATED_INSTRUMENT,
   DELETE_MAPPING, DELETE_MAPPING_SUCCESS, DELETE_MAPPING_FAILURE,
   RESET_DELETED_MAPPING,
-  DELETE_MAPPING_OPEN_CONFIRM
+  DELETE_MAPPING_OPEN_CONFIRM, DELETE_INSTRUMENT_OPEN_CONFIRM
 } from './types/instruments'
 
 const MSG_TIMEOUT = 5000
@@ -195,6 +195,13 @@ export function updateInstrument (id, formData) {
 /********************************************
  *            DELETE INSTRUMENT             *
  ********************************************/
+
+export function deleteInstrumentOpenConfirm (instrument) {
+  return {
+    type: DELETE_INSTRUMENT_OPEN_CONFIRM,
+    payload: instrument
+  }
+}
 
 export function deleteInstrumentLoading () {
   return {
