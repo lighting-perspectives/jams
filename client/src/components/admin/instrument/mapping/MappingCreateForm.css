@@ -1,0 +1,8 @@
+.ui.page.modals.transition.visible {
+    display: flex !important;
+}
+
+.ui.modal {
+    flex: 0 0 auto !important;
+    margin-top: initial !important;
+}
