@@ -1,6 +1,20 @@
 const DatabaseError = require('../../../errors/DatabaseError')
 
+/**
+ * Set the InstrumentMapping for the further query.
+ *
+ * @param InstrumentMapping
+ * @returns {function(*, *=, *=): Promise<T>}
+ */
 const update = InstrumentMapping => {
+  /**
+   * Updates an instrument mapping Model instance and persists it.
+   *
+   * @param req
+   * @param res
+   * @param next
+   * @returns {Promise<T>}
+   */
   const middleware = (req, res, next) => {
     return InstrumentMapping
       .findById(req.params.id, {})
