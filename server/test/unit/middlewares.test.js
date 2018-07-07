@@ -719,8 +719,8 @@ describe('middlewares', () => {
 
           const req = {
             params: {id: 'a960ebbe-e906-4042-9680-20866c03d568'},
-            body: { label: 'label', group: 'group'},
-            file: { path: 'path', filename: 'filename'}
+            body: {label: 'label', group: 'group'},
+            file: {path: 'path', originalname: 'filename'}
           }
           const res = {
             status: sinon.spy()
