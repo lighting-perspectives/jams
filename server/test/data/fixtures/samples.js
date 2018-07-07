@@ -39,7 +39,7 @@ module.exports = [
   },
   {
     id: '636f247a-dc88-4b52-b8e8-78448b5e5790',
-    path: path.join(__dirname, '../audio/636f247a-dc88-4b52-b8e8-78448b5e579'),
+    path: path.join(__dirname, '../audio/636f247a-dc88-4b52-b8e8-78448b5e5790'),
     originalPath: path.join(__dirname, '../files/DnBk1DHitA-Hat03.wav'),
     filename: 'DnBk1DHitA-Hat03.wav',
     container: 'WAV',

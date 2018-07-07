@@ -200,7 +200,7 @@ describe('/api/samples', () => {
         expect(res.body).to.be.an('object')
         expect(res.body).to.include({
           path: path.join(__dirname, '../data/audio/636f247a-dc88-4b52-b8e8-78448b5e5790'),
-          filename: '636f247a-dc88-4b52-b8e8-78448b5e5790',
+          filename: 'DnBk1DHitA-Hat01.wav',
           label: 'New label',
           group: 'New group'
         })
