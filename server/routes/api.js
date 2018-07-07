@@ -43,18 +43,18 @@ router.get('/', function (req, res, next) {
 //   middlewares.sampleSend
 // )
 
-// Instrument
-router.get('/instruments', instrumentController.findAll)
-router.post('/instruments', instrumentController.create)
-router.get('/instruments/:id', instrumentController.findById)
-router.put('/instruments/:id', instrumentController.update)
-router.delete('/instruments/:id', instrumentController.destroy)
-
-// InstrumentMappings
-router.get('/instruments/:instrumentId/mappings', instrumentMappingsController.findAll)
-router.post('/instruments/:instrumentId/mappings', instrumentMappingsController.create)
-router.get('/mappings/:id', instrumentMappingsController.findById)
-router.put('/mappings/:id', instrumentMappingsController.update)
-router.delete('/mappings/:id', instrumentMappingsController.destroy)
+// // Instrument
+// router.get('/instruments', instrumentController.findAll)
+// router.post('/instruments', instrumentController.create)
+// router.get('/instruments/:id', instrumentController.findById)
+// router.put('/instruments/:id', instrumentController.update)
+// router.delete('/instruments/:id', instrumentController.destroy)
+//
+// // InstrumentMappings
+// router.get('/instruments/:instrumentId/mappings', instrumentMappingsController.findAll)
+// router.post('/instruments/:instrumentId/mappings', instrumentMappingsController.create)
+// router.get('/mappings/:id', instrumentMappingsController.findById)
+// router.put('/mappings/:id', instrumentMappingsController.update)
+// router.delete('/mappings/:id', instrumentMappingsController.destroy)
 
 module.exports = router
