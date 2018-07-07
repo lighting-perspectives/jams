@@ -8,6 +8,7 @@ const sampleDestroy = require('./sample/model/destroy')
 const sampleFindById = require('./sample/model/findById')
 const sampleFindAll = require(('./sample/model/findAll'))
 const sampleSend = require('./sample/send')
+const mappingSend = require('./mapping/send')
 
 module.exports = {
   sample,
@@ -19,5 +20,6 @@ module.exports = {
   sampleDestroy,
   sampleFindById,
   sampleFindAll,
-  sampleSend
+  sampleSend,
+  mappingSend
 }
