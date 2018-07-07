@@ -10,6 +10,7 @@ const sampleFindAll = require(('./sample/model/findAll'))
 const sampleSend = require('./sample/send')
 
 const instrumentMappingFindById = require('./mapping/model/findById')
+const instrumentMappingUpdate = require('./mapping/model/update')
 const mappingSend = require('./mapping/send')
 
 module.exports = {
@@ -24,5 +25,6 @@ module.exports = {
   sampleFindAll,
   sampleSend,
   instrumentMappingFindById,
+  instrumentMappingUpdate,
   mappingSend
 }
