@@ -16,7 +16,7 @@ const send = (req, res, next) => {
   } else if (res.extra && res.extra.samples) {
     res.send(res.extra.samples)
   } else {
-    next(new Error('The \'sample(s)\' property of response extra is missing.'))
+    next(new Error('The \'sample(s)\' property in response extra object is missing.'))
   }
 }
 

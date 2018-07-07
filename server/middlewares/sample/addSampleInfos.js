@@ -6,10 +6,10 @@ const audio = require('../../audio')
  * res.extra.sample or res.extra.samples is required and is normally set in sampleCreate, sampleUpdate,
  * sampleFindById, sampleFindAll middlewares.
  *
- * @see middlewares/sample/create
- * @see middlewares/sample/update
- * @see middlewares/sample/findById
- * @see middlewares/sample/findAll
+ * @see middlewares/sample/model/create
+ * @see middlewares/sample/model/update
+ * @see middlewares/sample/model/findById
+ * @see middlewares/sample/model/findAll
  *
  * @param req
  * @param res
@@ -48,9 +48,9 @@ const addInfos = (req, res, next) => {
       })
       .catch(next)
   } else {
-    return new Promise((resolve, reject) => {
-      resolve(next(new Error('The \'sample\' property in request extra parameter is missing. It should be set in sample middleware')))
-    })
+    const msg = 'The \'sample\' property in request extra parameter is missing. It should be set in sample middleware'
+
+    return Promise.resolve(next(new Error(msg)))
   }
 }
 
