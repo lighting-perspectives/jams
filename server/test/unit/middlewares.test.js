@@ -361,7 +361,7 @@ describe('middlewares', () => {
             .then(() => {
               expect(next.calledOnce).to.be.true
               expect(next.firstCall.args[0]).to.be.instanceOf(Error)
-              expect(next.firstCall.args[0].message).to.equal("The 'uuid' property of request is missing, it should set in generateUUID middleware")
+              expect(next.firstCall.args[0].message).to.equal("The request object should contain a 'uuid' property, it should have been set in the 'generateUUID' middleware")
             })
         })
 
@@ -375,7 +375,7 @@ describe('middlewares', () => {
             .then(() => {
               expect(next.calledOnce).to.be.true
               expect(next.firstCall.args[0]).to.be.instanceOf(Error)
-              expect(next.firstCall.args[0].message).to.equal("The 'file' property of request is missing, it should set in multer middleware")
+              expect(next.firstCall.args[0].message).to.equal("The request object should contain a 'file' property, it should have been set in the 'multer' middleware")
             })
         })
 

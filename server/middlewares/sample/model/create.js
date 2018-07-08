@@ -22,11 +22,13 @@ const create = (Sample) => {
    */
   const middleware = (req, res, next) => {
     if (!req.uuid) {
-      return Promise.resolve(next(new Error('The \'uuid\' property of request is missing, it should set in generateUUID middleware')))
+      const msg = "The request object should contain a 'uuid' property, it should have been set in the 'generateUUID' middleware"
+      return Promise.resolve(next(new Error(msg)))
     }
 
     if (!req.file) {
-      return Promise.resolve(next(new Error('The \'file\' property of request is missing, it should set in multer middleware')))
+      const msg = "The request object should contain a 'file' property, it should have been set in the 'multer' middleware"
+      return Promise.resolve(next(new Error(msg)))
     }
 
     return Sample
