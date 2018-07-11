@@ -1,7 +1,7 @@
 const DatabaseError = require('../../../errors/DatabaseError')
 
 /**
- * Set the InstrumentMapping for the further query.
+ * Set the InstrumentMapping Model for the further query.
  *
  * @param InstrumentMapping
  * @returns {function(*, *=, *=): Promise<T>}
