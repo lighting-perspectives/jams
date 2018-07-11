@@ -891,15 +891,204 @@ describe('middlewares', () => {
     })
 
     describe('InstrumentMapping Model', () => {
-      let InstrumentMappingMock
+      let InstrumentMappingMock, InstrumentMock
 
       beforeEach(() => {
         const SequelizeMock = require('sequelize-mock')
         const dbMock = new SequelizeMock()
 
+        InstrumentMock = dbMock.define('Instrument', {
+          id: 'bf0c7e2a-3ce0-449e-80ff-f04a7cda3a12'
+        })
+
         InstrumentMappingMock = dbMock.define('InstrumentMapping', {
           id: 'a960ebbe-e906-4042-9680-20866c03d568',
           sampleId: 'db949b10-09ff-4b19-b9e4-9a5823809120'
+        })
+      })
+
+      describe('create', () => {
+        beforeEach(() => {
+          middleware = middlewares.instrumentMappingCreate
+        })
+
+        it('should be a valid function', () => {
+          expect(middleware).to.exist
+          expect(typeof middleware).to.equal('function')
+          expect(middleware.name).to.equal('create')
+        })
+
+        it('should propagate error when uuid is missing', () => {
+          const req = {}
+          const res = {}
+          const next = sinon.spy()
+
+          const create = middleware(InstrumentMock, InstrumentMappingMock)
+          return create(req, res, next)
+            .then(() => {
+              expect(next.calledOnce).to.be.true
+              expect(next.firstCall.args[0]).to.be.instanceOf(Error)
+              expect(next.firstCall.args[0].message).to.equal("The request object should contain a 'uuid' property, it should have been set in the 'generateUUID' middleware")
+            })
+        })
+
+        it('should return the created instrument mapping', () => {
+          InstrumentMock.$queryInterface.$useHandler(function (query, queryOptions, done) {
+            if (query === 'findById') {
+              if (queryOptions[0] === 'bf0c7e2a-3ce0-449e-80ff-f04a7cda3a12') {
+                return InstrumentMock.build({id: 'bf0c7e2a-3ce0-449e-80ff-f04a7cda3a12'})
+              } else {
+                return null
+              }
+            }
+          })
+          InstrumentMappingMock.$queryInterface.$useHandler(function (query, queryOptions, done) {
+            if (query === 'create') {
+              return InstrumentMappingMock.build({
+                id: 'fa5c3577-a5f9-47b1-ab8c-913af0db9ad7',
+                instrumentId: 'bf0c7e2a-3ce0-449e-80ff-f04a7cda3a12'
+              })
+            }
+          })
+
+          const req = {
+            uuid: 'fa5c3577-a5f9-47b1-ab8c-913af0db9ad7',
+            params: {instrumentId: 'bf0c7e2a-3ce0-449e-80ff-f04a7cda3a12'},
+            body: {
+              lowerRank: 30,
+              upperRank: 40,
+              referenceRank: 40,
+              sampleId: '511bd232-5f5f-41dd-b68b-34103fbce24f'
+            }
+          }
+          const res = {
+            status: sinon.spy()
+          }
+          const next = sinon.spy()
+
+          const create = middleware(InstrumentMock, InstrumentMappingMock)
+          return create(req, res, next)
+            .then(() => {
+              expect(res.status.calledOnce).to.be.true
+              expect(res.status.firstCall.args[0]).to.equal(201)
+              expect(res).to.have.property('extra')
+              expect(res.extra).to.have.property('mapping')
+              expect(res.extra.mapping).to.include({
+                id: 'fa5c3577-a5f9-47b1-ab8c-913af0db9ad7',
+                instrumentId: 'bf0c7e2a-3ce0-449e-80ff-f04a7cda3a12',
+                lowerRank: 30,
+                upperRank: 40,
+                referenceRank: 40,
+                sampleId: '511bd232-5f5f-41dd-b68b-34103fbce24f'
+              })
+              expect(next.calledOnce).to.be.true
+            })
+        })
+
+        it('should propagate error if the instrument with the given ID is missing', () => {
+          InstrumentMock.$queryInterface.$useHandler(function (query, queryOptions, done) {
+            if (query === 'findById') {
+              if (queryOptions[0] === 'bf0c7e2a-3ce0-449e-80ff-f04a7cda3a12') {
+                return InstrumentMock.build({id: 'bf0c7e2a-3ce0-449e-80ff-f04a7cda3a12'})
+              } else {
+                return null
+              }
+            }
+          })
+
+          const req = {
+            uuid: 'fa5c3577-a5f9-47b1-ab8c-913af0db9ad7',
+            params: {instrumentId: '91dde12d-5753-46db-9479-61ae39d7d1a0'}
+          }
+          const res = {
+            status: sinon.spy()
+          }
+          const next = sinon.spy()
+
+          const create = middleware(InstrumentMock, InstrumentMappingMock)
+          return create(req, res, next)
+            .then(() => {
+              expect(next.calledOnce).to.be.true
+              expect(next.firstCall.args[0]).to.be.instanceOf(DatabaseError)
+              expect(next.firstCall.args[0].status).to.equal(404)
+            })
+        })
+
+        it('should propagate error when instrument findBy fails', () => {
+          InstrumentMock.$queueFailure('Test error')
+
+          const req = {
+            uuid: 'fa5c3577-a5f9-47b1-ab8c-913af0db9ad7',
+            params: {instrumentId: 'bf0c7e2a-3ce0-449e-80ff-f04a7cda3a12'},
+            body: {
+              lowerRank: 30,
+              upperRank: 40,
+              referenceRank: 40,
+              sampleId: '511bd232-5f5f-41dd-b68b-34103fbce24f'
+            }
+          }
+          const res = {
+            status: sinon.spy()
+          }
+          const next = sinon.spy()
+
+          const create = middleware(InstrumentMock, InstrumentMappingMock)
+          return create(req, res, next)
+            .then(() => {
+              expect(next.calledOnce).to.be.true
+              expect(next.firstCall.args[0]).to.be.instanceOf(DatabaseError)
+              expect(next.firstCall.args[0].status).to.equal(400)
+              expect(next.firstCall.args[0].message).to.equal('SequelizeBaseError')
+            })
+        })
+
+        it.skip('should propagate error when mapping fields are omitted', () => {
+          InstrumentMock.$queryInterface.$useHandler(function (query, queryOptions, done) {
+            if (query === 'findById') {
+              if (queryOptions[0] === 'bf0c7e2a-3ce0-449e-80ff-f04a7cda3a12') {
+                return InstrumentMock.build({id: 'bf0c7e2a-3ce0-449e-80ff-f04a7cda3a12'})
+              } else {
+                return null
+              }
+            }
+          })
+          InstrumentMappingMock.$queryInterface.$useHandler(function (query, queryOptions, done) {
+            if (query === 'create') {
+              console.log('options', query)
+              console.log('options', queryOptions)
+              return InstrumentMappingMock.build({
+                id: 'fa5c3577-a5f9-47b1-ab8c-913af0db9ad7',
+                instrumentId: 'bf0c7e2a-3ce0-449e-80ff-f04a7cda3a1'
+              })
+            }
+          })
+
+          const req = {
+            uuid: 'fa5c3577-a5f9-47b1-ab8c-913af0db9ad7',
+            params: {instrumentId: 'bf0c7e2a-3ce0-449e-80ff-f04a7cda3a12'},
+            body: {
+              sampleId: '511bd232-5f5f-41dd-b68b-34103fbce24f'
+            }
+          }
+          const res = {
+            status: sinon.spy()
+          }
+          const next = sinon.spy()
+
+          const create = middleware(InstrumentMock, InstrumentMappingMock)
+          return create(req, res, next)
+            .then(() => {
+              console.log(next.firstCall.args[0])
+              expect(next.calledOnce).to.be.true
+              expect(next.firstCall.args[0]).to.be.instanceOf(DatabaseError)
+              expect(next.firstCall.args[0].status).to.equal(400)
+              expect(next.firstCall.args[0].message).to.equal('SequelizeBaseError')
+            })
+        })
+
+        afterEach(function () {
+          InstrumentMock.$queryInterface.$clearResults()
+          InstrumentMappingMock.$queryInterface.$clearResults()
         })
       })
 
