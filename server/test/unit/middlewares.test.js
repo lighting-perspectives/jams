@@ -803,6 +803,94 @@ describe('middlewares', () => {
     })
   })
 
+  describe('instrument', () => {
+    describe('send', () => {
+      beforeEach(() => {
+        middleware = middlewares.instrumentSend
+      })
+
+      it('should be a valid function', () => {
+        expect(middleware).to.exist
+        expect(typeof middleware).to.equal('function')
+        expect(middleware.name).to.equal('send')
+      })
+
+      it('Response should end when status is 204', () => {
+        const req = {}
+        const res = {
+          statusCode: 204,
+          end: sinon.spy()
+        }
+        const next = sinon.spy()
+
+        middleware(req, res, next)
+
+        expect(next.called).to.be.false
+        expect(res.end.calledOnce).to.be.true
+        expect(res.end.firstCall.args[0]).to.be.undefined
+      })
+
+      it('Response should send instrument extra prop when present', () => {
+        const req = {}
+        const res = {
+          extra: {instrument: {id: 'f3e0ed25-ca97-4693-8909-1c9e6983cbe7'}},
+          send: sinon.spy()
+        }
+        const next = sinon.spy()
+
+        middleware(req, res, next)
+
+        expect(next.called).to.be.false
+        expect(res.send.calledOnce).to.be.true
+        expect(res.send.firstCall.args[0]).to.deep.equal(res.extra.instrument)
+      })
+
+      it('Response should send instruments extra prop when present', () => {
+        const req = {}
+        const res = {
+          extra: {instruments: [{id: 'f3e0ed25-ca97-4693-8909-1c9e6983cbe7'}]},
+          send: sinon.spy()
+        }
+        const next = sinon.spy()
+
+        middleware(req, res, next)
+
+        expect(next.called).to.be.false
+        expect(res.send.calledOnce).to.be.true
+        expect(res.send.firstCall.args[0]).to.deep.equal(res.extra.instruments)
+      })
+
+      it('should fail when extra prop is empty', () => {
+        const req = {}
+        const res = {
+          extra: {},
+          send: sinon.spy()
+        }
+        const next = sinon.spy()
+
+        middleware(req, res, next)
+
+        expect(next.calledOnce).to.be.true
+        expect(next.firstCall.args[0]).to.be.instanceOf(Error)
+        expect(res.send.called).to.be.false
+      })
+
+      it('should fail when extra prop is missing', () => {
+        const req = {}
+        const res = {
+          send: sinon.spy()
+        }
+        const next = sinon.spy()
+
+        middleware(req, res, next)
+
+        expect(next.calledOnce).to.be.true
+        expect(next.firstCall.args[0]).to.be.instanceOf(Error)
+        expect(res.send.called).to.be.false
+      })
+    })
+  })
+
   describe('mapping', () => {
     describe('send', () => {
       beforeEach(() => {
