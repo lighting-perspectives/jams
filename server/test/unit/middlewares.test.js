@@ -907,6 +907,74 @@ describe('middlewares', () => {
         })
       })
 
+      describe('create', () => {
+        beforeEach(() => {
+          middleware = middlewares.instrumentCreate
+
+          InstrumentMock.$queryInterface.$useHandler(function (query, queryOptions, done) {
+            if (query === 'create') {
+              return InstrumentMock.build({id: '419ed254-4241-473a-a123-ab45c71d901b'})
+            }
+          })
+        })
+
+        it('should be a valid function', () => {
+          expect(middleware).to.exist
+          expect(typeof middleware).to.equal('function')
+          expect(middleware.name).to.equal('create')
+        })
+
+        it('should propagate error when uuid is missing', () => {
+          const req = {file: {}}
+          const res = {}
+          const next = sinon.spy()
+
+          const create = middleware(InstrumentMock)
+          return create(req, res, next)
+            .then(() => {
+              expect(next.calledOnce).to.be.true
+              expect(next.firstCall.args[0]).to.be.instanceOf(Error)
+              expect(next.firstCall.args[0].message).to.equal("The request object should contain a 'uuid' property, it should have been set in the 'generateUUID' middleware")
+            })
+        })
+
+        it('should return the created instrument', () => {
+          InstrumentMock.$queryInterface.$useHandler(function (query, queryOptions, done) {
+            if (query === 'create') {
+              return InstrumentMock.build({})
+            }
+          })
+
+          const req = {
+            uuid: 'fa5c3577-a5f9-47b1-ab8c-913af0db9ad7',
+            body: {label: 'bar'}
+          }
+          const res = {
+            status: sinon.spy()
+          }
+          const next = sinon.spy()
+
+          const create = middleware(InstrumentMock)
+          return create(req, res, next)
+            .then(() => {
+              expect(res.status.calledOnce).to.be.true
+              expect(res.status.firstCall.args[0]).to.equal(201)
+              expect(res).to.have.property('extra')
+              expect(res.extra).to.have.property('' +
+                '')
+              expect(res.extra.instrument).to.include({
+                id: 'fa5c3577-a5f9-47b1-ab8c-913af0db9ad7',
+                label: 'bar'
+              })
+              expect(next.calledOnce).to.be.true
+            })
+        })
+
+        afterEach(function () {
+          InstrumentMock.$queryInterface.$clearResults()
+        })
+      })
+
       describe('findAllMapping', () => {
         beforeEach(() => {
           middleware = middlewares.instrumentFindAllMapping
