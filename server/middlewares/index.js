@@ -14,6 +14,7 @@ const instrumentCreate = require('./instrument/model/create')
 const instrumentDestroy = require('./instrument/model/destroy')
 const instrumentUpdate = require('./instrument/model/update')
 const instrumentFindById = require('./instrument/model/findById')
+const instrumentFindAll = require('./instrument/model/findAll')
 const instrumentFindAllMapping = require('./instrument/model/findAllMapping')
 
 const instrumentMappingCreate = require('./mapping/model/create')
@@ -38,6 +39,7 @@ module.exports = {
   instrumentDestroy,
   instrumentUpdate,
   instrumentFindById,
+  instrumentFindAll,
   instrumentFindAllMapping,
   instrumentMappingCreate,
   instrumentMappingFindById,

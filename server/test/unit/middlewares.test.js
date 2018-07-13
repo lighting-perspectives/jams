@@ -1273,6 +1273,67 @@ describe('middlewares', () => {
         })
       })
 
+      describe('findAll', () => {
+        beforeEach(() => {
+          middleware = middlewares.instrumentFindAll
+          // the 'all' method doesn't exist so we map it
+          InstrumentMock.all = InstrumentMock.findAll
+        })
+
+        it('should be a valid function', () => {
+          expect(middleware).to.exist
+          expect(typeof middleware).to.equal('function')
+          expect(middleware.name).to.equal('findAll')
+        })
+
+        it('should return instruments', () => {
+          const req = {
+            query: {}
+          }
+          const res = {
+            status: sinon.spy()
+          }
+          const next = sinon.spy()
+
+          const findAll = middleware(InstrumentMock, InstrumentMappingMock)
+          return findAll(req, res, next)
+            .then(() => {
+              expect(res).to.have.property('status')
+              expect(res.status.calledOnce).to.be.true
+              expect(res.status.firstCall.args[0]).to.equal(200)
+              expect(res).to.have.property('extra')
+              expect(res.extra).to.have.property('instruments')
+              expect(res.extra.instruments[0]).to.include({id: 'bf0c7e2a-3ce0-449e-80ff-f04a7cda3a12'})
+              expect(next.calledOnce).to.be.true
+            })
+        })
+
+        it('should propagate error when find fails', () => {
+          InstrumentMock.$queueFailure('Test error')
+
+          const req = {
+            query: {}
+          }
+          const res = {
+            status: sinon.spy()
+          }
+          const next = sinon.spy()
+
+          const findAll = middleware(InstrumentMock, InstrumentMappingMock)
+          return findAll(req, res, next)
+            .then(() => {
+              expect(next.calledOnce).to.be.true
+              expect(next.firstCall.args[0]).to.be.instanceOf(DatabaseError)
+              expect(next.firstCall.args[0].status).to.equal(400)
+            })
+        })
+
+        afterEach(function () {
+          InstrumentMock.$queryInterface.$clearResults()
+          InstrumentMappingMock.$queryInterface.$clearResults()
+        })
+      })
+
       describe('findAllMapping', () => {
         beforeEach(() => {
           middleware = middlewares.instrumentFindAllMapping
