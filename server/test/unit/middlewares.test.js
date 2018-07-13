@@ -1071,6 +1071,111 @@ describe('middlewares', () => {
         })
       })
 
+      describe('update', () => {
+        beforeEach(() => {
+          middleware = middlewares.instrumentUpdate
+        })
+
+        it('should be a valid function', () => {
+          expect(middleware).to.exist
+          expect(typeof middleware).to.equal('function')
+          expect(middleware.name).to.equal('update')
+        })
+
+        it('should update the instrument and return it', () => {
+          InstrumentMock.$queryInterface.$useHandler(function (query, queryOptions, done) {
+            if (query === 'findById') {
+              if (queryOptions[0] === 'a960ebbe-e906-4042-9680-20866c03d568') {
+                return InstrumentMock.build({
+                  id: 'a960ebbe-e906-4042-9680-20866c03d568',
+                  label: 'baz'
+                })
+              } else {
+                return null
+              }
+            }
+          })
+
+          const req = {
+            params: {id: 'a960ebbe-e906-4042-9680-20866c03d568'},
+            body: {label: 'label'}
+          }
+          const res = {
+            status: sinon.spy()
+          }
+          const next = sinon.spy()
+
+          const update = middleware(InstrumentMock)
+          return update(req, res, next)
+            .then(() => {
+              expect(res).to.have.property('extra')
+              expect(res.extra).to.have.property('instrument')
+              expect(res.extra.instrument).to.include({
+                id: 'a960ebbe-e906-4042-9680-20866c03d568',
+                label: 'label'
+              })
+              expect(res.status.calledOnce).to.be.true
+              expect(res.status.firstCall.args[0]).to.equal(200)
+              expect(next.calledOnce).to.be.true
+              expect(next.firstCall.args[0]).to.be.undefined
+            })
+        })
+
+        it('should propagate error if the instrument with the given ID is missing', () => {
+          InstrumentMock.$queryInterface.$useHandler(function (query, queryOptions, done) {
+            if (query === 'findById') {
+              if (queryOptions[0] === 'a960ebbe-e906-4042-9680-20866c03d568') {
+                return InstrumentMock.build({id: 'a960ebbe-e906-4042-9680-20866c03d568'})
+              } else {
+                return null
+              }
+            }
+          })
+
+          const req = {
+            params: {id: '91dde12d-5753-46db-9479-61ae39d7d1a0'}
+          }
+          const res = {
+            status: sinon.spy()
+          }
+          const next = sinon.spy()
+
+          const update = middleware(InstrumentMock)
+          return update(req, res, next)
+            .then(() => {
+              expect(next.calledOnce).to.be.true
+              expect(next.firstCall.args[0]).to.be.instanceOf(DatabaseError)
+              expect(next.firstCall.args[0].status).to.equal(404)
+              expect(next.firstCall.args[0].message).to.equal('Failed to retrieve instrument n°91dde12d-5753-46db-9479-61ae39d7d1a0')
+            })
+        })
+
+        it('should propagate error when removal fails', () => {
+          InstrumentMock.$queueFailure('Test error')
+
+          const req = {
+            params: {id: '91dde12d-5753-46db-9479-61ae39d7d1a0'}
+          }
+          const res = {
+            status: sinon.spy()
+          }
+          const next = sinon.spy()
+
+          const update = middleware(InstrumentMock)
+          return update(req, res, next)
+            .then(() => {
+              expect(next.calledOnce).to.be.true
+              expect(next.firstCall.args[0]).to.be.instanceOf(DatabaseError)
+              expect(next.firstCall.args[0].status).to.equal(400)
+              expect(next.firstCall.args[0].message).to.equal('SequelizeBaseError')
+            })
+        })
+
+        afterEach(function () {
+          InstrumentMock.$queryInterface.$clearResults()
+        })
+      })
+
       describe('findAllMapping', () => {
         beforeEach(() => {
           middleware = middlewares.instrumentFindAllMapping
