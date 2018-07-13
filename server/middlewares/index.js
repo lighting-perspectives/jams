@@ -11,6 +11,7 @@ const sampleSend = require('./sample/send')
 
 const instrumentSend = require('./instrument/send')
 const instrumentCreate = require('./instrument/model/create')
+const instrumentDestroy = require('./instrument/model/destroy')
 const instrumentFindAllMapping = require('./instrument/model/findAllMapping')
 
 const instrumentMappingCreate = require('./mapping/model/create')
@@ -32,6 +33,7 @@ module.exports = {
   sampleSend,
   instrumentSend,
   instrumentCreate,
+  instrumentDestroy,
   instrumentFindAllMapping,
   instrumentMappingCreate,
   instrumentMappingFindById,
