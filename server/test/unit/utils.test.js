@@ -1,7 +1,7 @@
 /* eslint-disable no-undef,no-unused-expressions */
 const expect = require('chai').expect
 
-let utils, fn, map
+let utils, map
 
 describe('utils', function () {
   beforeEach(function () {
@@ -10,32 +10,6 @@ describe('utils', function () {
 
   it('should return utils', function () {
     expect(utils).to.exist
-  })
-
-  describe('mp4filter', function () {
-    before(function () {
-      fn = function (err, val) {
-        if (err) { throw err }
-
-        expect(val).to.be.true
-      }
-    })
-    it('should filter mp4 file', function () {
-      utils.mp4Filter(null, {originalname: 'foo.mp4'}, fn)
-      utils.mp4Filter(null, {originalname: 'bar.MP4'}, fn)
-      utils.mp4Filter(null, {originalname: 'baz.wav'}, fn)
-      utils.mp4Filter(null, {originalname: 'biz.WAV'}, fn)
-    })
-
-    it('should fail with non-mp4 file', function () {
-      expect(function () {
-        utils.mp4Filter(null, {originalname: 'foo.mp3'}, fn)
-      }).to.throw(Error, 'Only audio files are allowed!')
-
-      expect(function () {
-        utils.mp4Filter(null, {originalname: 'foo.doc'}, fn)
-      }).to.throw(Error, 'Only audio files are allowed!')
-    })
   })
 
   describe('rankToNote', function () {

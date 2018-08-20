@@ -1,0 +1,804 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "0.1.0",
+    "title": "Jams",
+    "description": "Just Another Music Studio !"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Server for development"
+    }
+  ],
+  "tags": [
+    {
+      "name": "user",
+      "description": "API client"
+    },
+    {
+      "name": "admin",
+      "description": "API administrator"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "Sample": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Sample ID",
+            "example": "636f247a-dc88-4b52-b8e8-78448b5e5790"
+          },
+          "path": {
+            "type": "string",
+            "description": "Path of the audio file",
+            "example": "/path/to/audio/directory/sound.wav"
+          },
+          "filename": {
+            "type": "string",
+            "description": "Name of the audio file",
+            "example": "sound.wav"
+          },
+          "container": {
+            "type": "string",
+            "description": "Container name",
+            "example": "MP4"
+          },
+          "group": {
+            "type": "string",
+            "description": "Group the sample is part of",
+            "example": "TR808"
+          },
+          "label": {
+            "type": "string",
+            "description": "Label describing the sample",
+            "example": "The Sound"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date",
+            "description": "Creation date",
+            "example": "2018-05-21T22:08:24.159Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date",
+            "description": "Update date",
+            "example": "2018-05-21T22:09:22.661Z"
+          }
+        },
+        "required": [
+          "id",
+          "path",
+          "filename",
+          "container",
+          "group",
+          "label",
+          "createdAt",
+          "updatedAt"
+        ]
+      },
+      "Instrument": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Instrument ID",
+            "example": "f071bc75-073b-4633-ac1b-8bb9b4e1dfa3"
+          },
+          "label": {
+            "type": "string",
+            "description": "A label decribing the instrument",
+            "example": "TR808 Instrument"
+          },
+          "mappings": {
+            "type": "array",
+            "description": "Collection of mappings",
+            "items": {
+              "$ref": "#/components/schemas/InstrumentMapping"
+            }
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date",
+            "description": "Creation date",
+            "example": "2018-05-21T22:08:24.159Z"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date",
+            "description": "Update date",
+            "example": "2018-05-21T22:09:22.661Z"
+          }
+        },
+        "required": [
+          "id",
+          "label"
+        ]
+      },
+      "InstrumentMapping": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Instrument mapping ID",
+            "example": "f071bc75-073b-4633-ac1b-8bb9b4e1dfa3"
+          },
+          "lowerRank": {
+            "type": "integer",
+            "description": "The mapping rank corresponding to the lower note",
+            "example": 60
+          },
+          "upperRank": {
+            "type": "integer",
+            "description": "The mapping rank corresponding to the upper note",
+            "example": 40
+          },
+          "referenceRank": {
+            "type": "integer",
+            "description": "The mapping rank corresponding to the note for whom the sample is played at normal speed",
+            "example": 50
+          },
+          "instrumentId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The ID of the instrument containing the mapping",
+            "example": "636f247a-dc88-4b52-b8e8-78448b5e5790"
+          },
+          "sampleId": {
+            "type": "string",
+            "format": "uuid",
+            "description": "The ID of the sample played within the mapping range",
+            "example": "9f4ff700-6cc4-4831-b10f-4e7384f8f8b2"
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/api/samples": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Gets all samples",
+        "description": "Returns a collection containing all samples",
+        "parameters": [
+          {
+            "name": "group",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            },
+            "description": "(Optional) Filter by group"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON Array containing samples",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Sample"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Creates a sample",
+        "description": "Adds a new Sample to the collection",
+        "requestBody": {
+          "description": "Required data to create the sample",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "properties": {
+                  "audioFile": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "An audio file (WAV, MP4)",
+                    "example": "sound.wav"
+                  },
+                  "label": {
+                    "type": "string",
+                    "description": "A label for the sample",
+                    "example": "Sound label"
+                  },
+                  "group": {
+                    "type": "string",
+                    "description": "A group name for the sample",
+                    "example": "TR808"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Sample succesfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Sample"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Sample couldn't have been created"
+          },
+          "5XX": {
+            "description": "Unexpected error"
+          }
+        }
+      }
+    },
+    "/api/samples/{id}": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Gets a sample",
+        "description": "Gets the sample with the specified ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the sample to retrieve",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Sample with the specified ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Sample"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The specified sample ID is invalid"
+          },
+          "404": {
+            "description": "A sample with the specified ID was not found"
+          },
+          "5XX": {
+            "description": "Unexpected error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Updates a sample",
+        "description": "Updates the sample with the specified ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the Sample to update",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Sample fields to update",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "properties": {
+                  "audioFile": {
+                    "type": "string",
+                    "format": "binary",
+                    "example": "sound.wav"
+                  },
+                  "label": {
+                    "type": "string",
+                    "example": "A sample label"
+                  },
+                  "group": {
+                    "type": "string",
+                    "example": "TR808"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Sample successfully updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Sample"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The specified sample id is invalid (not a UUIDv4)"
+          },
+          "404": {
+            "description": "A sample with the specified id was not found"
+          },
+          "5XX": {
+            "description": "Unexpected error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Deletes a sample",
+        "description": "Removes the sample with the specified ID from the collection",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the Sample to delete",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Sample sucessfully removed"
+          },
+          "400": {
+            "description": "The specified sample ID is invalid"
+          },
+          "404": {
+            "description": "A sample with the specified ID was not found"
+          },
+          "5XX": {
+            "description": "Unexpected error"
+          }
+        }
+      }
+    },
+    "/api/instruments": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Gets all instruments",
+        "description": "Returns a collection containing all instruments",
+        "responses": {
+          "200": {
+            "description": "A JSON Array containing instruments",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Instrument"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Creates an instrument",
+        "description": "Adds an new instrument to the collection",
+        "requestBody": {
+          "description": "Required data to create the instrument",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "label": {
+                    "type": "string",
+                    "example": "TR808 Instrument"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Instrument created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Instrument"
+                }
+              }
+            }
+          },
+          "5XX": {
+            "description": "Unexpected error"
+          }
+        }
+      }
+    },
+    "/api/instruments/{id}": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Gets a instrument",
+        "description": "Gets the instrument with the specified ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the instrument to retrieve",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The Instrument with the specified ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Instrument"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The specified instrument ID is invalid"
+          },
+          "404": {
+            "description": "An instrument with the specified ID was not found"
+          },
+          "5XX": {
+            "description": "Unexpected error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Updates an instrument",
+        "description": "Updates an instrument with the specified ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the instrument to update",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Data to update the instrument",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "label": {
+                    "type": "string",
+                    "example": "A instrument label"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Instrument successfully updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Instrument"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The specified instrument ID is invalid"
+          },
+          "404": {
+            "description": "An instrument with the specified ID was not found"
+          },
+          "5XX": {
+            "description": "Unexpected error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Deletes an instrument",
+        "description": "Removes an instrument with the specified ID from the collection",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the instrument to delete",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Instrument succesfully removed"
+          },
+          "404": {
+            "description": "An intrument with the specified ID was not found"
+          },
+          "5XX": {
+            "description": "Unexpected error"
+          }
+        }
+      }
+    },
+    "/api/instruments/{instrumentId}/mappings": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Gets all mappings of an instrument",
+        "description": "Returns a collection of the mappings of the specified instrument",
+        "parameters": [
+          {
+            "name": "instrumentId",
+            "in": "path",
+            "description": "Instrument ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON array containing mappings",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/InstrumentMapping"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "An instrument with the specified ID was not found"
+          },
+          "5XX": {
+            "description": "Unexpected error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Creates a mapping of an instrument",
+        "description": "Adds a new InstrumentMapping attached to the specified instrument in the collection",
+        "parameters": [
+          {
+            "name": "instrumentId",
+            "in": "path",
+            "description": "Instrument ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Required data to create a instrument mapping",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "properties": {
+                  "lowerRank": {
+                    "type": "integer",
+                    "description": "The mapping rank corresponding to the lower note",
+                    "example": 40
+                  },
+                  "upperRank": {
+                    "type": "integer",
+                    "description": "The mapping rank corresponding to the upper note",
+                    "example": 60
+                  },
+                  "referenceRank": {
+                    "type": "integer",
+                    "description": "The mapping rank corresponding to the note for whom the sample is playde at normal speed",
+                    "example": 50
+                  },
+                  "sampleId": {
+                    "type": "string",
+                    "format": "uuid",
+                    "description": "The ID of the sample played within the mapping range",
+                    "example": "1e8b145a-71b3-4476-88d9-b3189c7169d4"
+                  }
+                },
+                "required": [
+                  "lowerRank",
+                  "upperRank",
+                  "referenceRank",
+                  "sampleId"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Instrument mapping succesfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstrumentMapping"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The specified instrument ID is invalid"
+          },
+          "404": {
+            "description": "An instrument with the specified ID was not found"
+          },
+          "5XX": {
+            "description": "Unexpected error"
+          }
+        }
+      }
+    },
+    "/api/mappings/{id}": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Gets an instrument mapping",
+        "description": "Gets an instrument mapping with the specified",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Intrument mapping ID",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON object representing the mapping",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstrumentMapping"
+                }
+              }
+            }
+          },
+          "5XX": {
+            "description": "Unexpected error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Updates an instrument mapping",
+        "description": "Adds a instrument mapping in the collection",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the mapping to update",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "A JSON object representing the updated mapping",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InstrumentMapping"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "The specified instrument mapping ID is invalid"
+          },
+          "5XX": {
+            "description": "Unexpected error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Deletes an instrument mapping",
+        "description": "Removes the instrument mapping from the collection",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the mapping to update",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Mapping successfully removed"
+          },
+          "404": {
+            "description": "The specified mapping ID is invalid"
+          },
+          "5XX": {
+            "description": "Unexpected error"
+          }
+        }
+      }
+    }
+  }
+}

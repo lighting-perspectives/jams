@@ -37,5 +37,15 @@ services:
             - TEST_PORT=${TEST_PORT}
         volumes:
             - ./server:/usr/src/app
+#            - ${NODE_LOG_DIR}:/home/node/.pm2/logs
         links:
             - db:postgres
+
+    react:
+        build:
+          context: docker/react
+        command: bash -c "yarn && yarn run start"
+        ports:
+            - "${REACT_PORT}:3000"
+        volumes:
+          - ./client:/usr/src/app

@@ -1,3 +1,5 @@
+const { afterDestroy } = require('./hooks/sample')
+
 module.exports = (sequelize, DataTypes) => {
   const Sample = sequelize.define('Sample', {
     id: {
@@ -24,7 +26,11 @@ module.exports = (sequelize, DataTypes) => {
     label: {
       type: DataTypes.STRING
     }
-  }, {})
+  }, {
+    hooks: {
+      afterDestroy
+    }
+  })
 
   // Sample.associate = function (models) {
   //   Sample.belongsToMany(models.InstrumentMapping, {

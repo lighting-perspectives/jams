@@ -14,6 +14,7 @@ PAD_SPACE = 5
 TRACK_SPACE = 10
 
 
+# ****************************************** BUTTON
 class Button:
     def __init__(self, func, fenetre, x1, y1, x2, y2, text):
         self.interface = Draws.RectangleText(fenetre, x1, y1, x2, y2, text)
@@ -29,6 +30,7 @@ class Button:
         self.interface.draw()
 
 
+# ****************************************** PAD
 class Pad:
     def __init__(self, fenetre, track, bar, timediv, sound):
         self.track = track
@@ -109,6 +111,7 @@ class Pad:
         # print(str(Project.partition.tracks[1].notes))
 
 
+# ****************************************** TRACK
 class Track:
     def __init__(self, fenetre, num, sound):
         self.num = num

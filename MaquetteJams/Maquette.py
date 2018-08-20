@@ -16,6 +16,7 @@ BUTTON_HEIGHT = 40
 
 SOUNDS = ["./sounds/hihat.wav", "./sounds/bd.wav", "./sounds/bd.wav", "./sounds/bd.wav"]
 
+
 def main():
     maquette = Maquette()
     maquette.run()
@@ -45,12 +46,25 @@ class Maquette:
         self.croche_button = Pad.Button(self.croche_selected, self.fenetre,
                                         150, 50, 150 + BUTTON_WIDTH, 50 + BUTTON_HEIGHT, 'croche')
         self.doublecroche_button = Pad.Button(self.doublecroche_selected, self.fenetre,
-                                              250, 50, 250 + BUTTON_WIDTH, 50 + BUTTON_HEIGHT, 'double')
+                                        250, 50, 250 + BUTTON_WIDTH, 50 + BUTTON_HEIGHT, 'double')
+
+        self.moins_tempo_button = Pad.Button(self.moins_tempo, self.fenetre,
+                                       350, 50, 350 + BUTTON_WIDTH, 50 + BUTTON_HEIGHT, '<')
+        self.plus_tempo_button = Pad.Button(self.plus_tempo, self.fenetre,
+                                       450, 50, 450 + BUTTON_WIDTH, 50 + BUTTON_HEIGHT, '>')
 
         self.buttons = []
         self.buttons.append(self.noire_button)
         self.buttons.append(self.croche_button)
         self.buttons.append(self.doublecroche_button)
+        self.buttons.append(self.moins_tempo_button)
+        self.buttons.append(self.plus_tempo_button)
+
+    def moins_tempo(self):
+        Project.modif_tempo(-2)
+
+    def plus_tempo(self):
+        Project.modif_tempo(2)
 
     def noire_selected(self):
         Project.DIV = 4

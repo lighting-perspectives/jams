@@ -1,9 +1,6 @@
 .idea
-node_modules
-yarn-error.log
+
 .env
 
 docker/db/data
-
-MaquetteJams/_pycache_
-MaquetteJams/__pycache__
+/server/test/data/audio/

@@ -10,12 +10,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING
     }
   }, {})
-  Instrument.associate = function (models) {
-    // Instrument.hasMany(models.InstrumentMapping, {
-    //     // as: 'Mapping',
-    //     foreignKey: 'instrumentId',
-    //     sourceKey: 'id'
-    // });
+  Instrument.associate = (models) => {
+    Instrument.hasMany(models.InstrumentMapping, {
+      as: 'mappings',
+      foreignKey: 'instrumentId'
+    })
   }
   return Instrument
 }

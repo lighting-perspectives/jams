@@ -14,3 +14,14 @@ NB_TRACKS = 4
 
 partition = None
 
+
+def modif_tempo(diff):
+    global TEMPO
+    TEMPO += diff
+    if TEMPO > 300:
+        TEMPO = 300
+    if TEMPO < 30:
+        TEMPO  =30
+
+
+
