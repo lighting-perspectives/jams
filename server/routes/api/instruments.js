@@ -19,7 +19,7 @@ router.get('/', instrumentFindAll(Instrument, InstrumentMapping), instrumentSend
 router.post('/', generateUUID, instrumentCreate(Instrument), instrumentSend)
 router.get('/:id', instrumentFindById(Instrument, InstrumentMapping), instrumentSend)
 router.put('/:id', instrumentUpdate(Instrument), instrumentSend)
-router.delete('/:id', instrumentDestroy(Instrument))
+router.delete('/:id', instrumentDestroy(Instrument), instrumentSend)
 
 // InstrumentMappings
 router.get('/:instrumentId/mappings', instrumentFindAllMapping(Instrument, InstrumentMapping))
