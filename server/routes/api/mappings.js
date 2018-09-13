@@ -1,10 +1,17 @@
 const express = require('express')
 const router = express.Router()
 
-const instrumentMappingsController = require('../../controllers').instrumentMappings
+const {InstrumentMapping} = require('../../models/index')
 
-router.get('/:id', instrumentMappingsController.findById)
-router.put('/:id', instrumentMappingsController.update)
-router.delete('/:id', instrumentMappingsController.destroy)
+const {
+  instrumentMappingDestroy,
+  instrumentMappingFindById,
+  instrumentMappingUpdate,
+  mappingSend
+} = require('../../middlewares')
+
+router.get('/:id', instrumentMappingFindById(InstrumentMapping), mappingSend)
+router.put('/:id', instrumentMappingUpdate(InstrumentMapping), mappingSend)
+router.delete('/:id', instrumentMappingDestroy(InstrumentMapping), mappingSend)
 
 module.exports = router
