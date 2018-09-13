@@ -1,18 +1,28 @@
 const express = require('express')
 const router = express.Router()
 
-const instrumentController = require('../../controllers').instruments
-const instrumentMappingsController = require('../../controllers').instrumentMappings
+const {Instrument, InstrumentMapping} = require('../../models/index')
+const {
+  generateUUID,
+  instrumentCreate,
+  instrumentDestroy,
+  instrumentUpdate,
+  instrumentFindById,
+  instrumentFindAll,
+  instrumentFindAllMapping,
+  instrumentMappingCreate,
+  instrumentSend
+} = require('../../middlewares')
 
 // Instrument
-router.get('/', instrumentController.findAll)
-router.post('/', instrumentController.create)
-router.get('/:id', instrumentController.findById)
-router.put('/:id', instrumentController.update)
-router.delete('/:id', instrumentController.destroy)
+router.get('/', instrumentFindAll(Instrument, InstrumentMapping), instrumentSend)
+router.post('/', generateUUID, instrumentCreate(Instrument), instrumentSend)
+router.get('/:id', instrumentFindById(Instrument, InstrumentMapping), instrumentSend)
+router.put('/:id', instrumentUpdate(Instrument), instrumentSend)
+router.delete('/:id', instrumentDestroy(Instrument))
 
 // InstrumentMappings
-router.get('/:instrumentId/mappings', instrumentMappingsController.findAll)
-router.post('/:instrumentId/mappings', instrumentMappingsController.create)
+router.get('/:instrumentId/mappings', instrumentFindAllMapping(Instrument, InstrumentMapping))
+router.post('/:instrumentId/mappings', instrumentMappingCreate(Instrument, InstrumentMapping))
 
 module.exports = router
