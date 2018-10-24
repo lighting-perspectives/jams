@@ -1,4 +1,4 @@
-FROM node:carbon
+FROM node:10
 
 LABEL maintainer="Guillaume Limberger <glim.dev@gmail.com>"
 
