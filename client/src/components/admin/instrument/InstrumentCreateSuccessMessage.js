@@ -1,12 +1,12 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Message, TransitionablePortal } from 'semantic-ui-react'
+import React, { Component } from "react"
+import { connect } from "react-redux"
+import { Message, TransitionablePortal } from "semantic-ui-react"
 
-import { resetNewInstrument } from '../../../actions/instruments'
+import { resetNewInstrument } from "../../../actions/instruments"
 
 class InstrumentCreateSuccessMessage extends Component {
-  render () {
-    const {newInstrument} = this.props
+  render() {
+    const { newInstrument } = this.props
 
     return (
       <TransitionablePortal
@@ -15,13 +15,18 @@ class InstrumentCreateSuccessMessage extends Component {
       >
         <Message
           positive
-          style={{left: '30%', position: 'fixed', top: '50%', zIndex: 1000}}
+          style={{ left: "30%", position: "fixed", top: "50%", zIndex: 1000 }}
         >
           <Message.Header>
-          Instrument created - {newInstrument.instrument ? newInstrument.instrument.label : ''}
+            Instrument created -{" "}
+            {newInstrument.instrument ? newInstrument.instrument.label : ""}
           </Message.Header>
           <p>
-          The <strong>instrument</strong> {newInstrument.instrument ? ' n°' + newInstrument.instrument.id : ''} has been <strong>created</strong> successfully
+            The <strong>instrument</strong>{" "}
+            {newInstrument.instrument
+              ? " n°" + newInstrument.instrument.id
+              : ""}{" "}
+            has been <strong>created</strong> successfully
           </p>
         </Message>
       </TransitionablePortal>
@@ -31,14 +36,17 @@ class InstrumentCreateSuccessMessage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    newInstrument: state.instruments.newInstrument
+    newInstrument: state.instruments.newInstrument,
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  resetNewInstrument () {
+  resetNewInstrument() {
     dispatch(resetNewInstrument())
-  }
+  },
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(InstrumentCreateSuccessMessage)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(InstrumentCreateSuccessMessage)

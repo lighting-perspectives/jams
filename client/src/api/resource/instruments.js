@@ -1,63 +1,73 @@
 /* eslint-disable no-undef */
-import { BASE_URL } from '../index'
-import { checkResponse, serializeData } from '../utils'
+import { BASE_URL } from "../index"
+import { checkResponse, serializeData } from "../utils"
 
-export function getInstruments () {
+export function getInstruments() {
   return fetch(`${BASE_URL}/api/instruments`)
     .then(res => res.json())
-    .catch(error => { throw (error) })
+    .catch(error => {
+      throw error
+    })
 }
 
-export function postInstruments (formData) {
-  console.log('label', formData.get('label'))
+export function postInstruments(formData) {
+  console.log("label", formData.get("label"))
   return fetch(`${BASE_URL}/api/instruments`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+      "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
     },
-    body: `label=${formData.get('label')}`
+    body: `label=${formData.get("label")}`,
   })
     .then(res => checkResponse(res))
     .then(res => res.json())
-    .catch(error => { throw (error) })
+    .catch(error => {
+      throw error
+    })
 }
 
-export function putInstruments (id, formData) {
+export function putInstruments(id, formData) {
   return fetch(`${BASE_URL}/api/instruments/${id}`, {
-    method: 'PUT',
+    method: "PUT",
     headers: {
-      'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+      "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
     },
-    body: serializeData(formData)
+    body: serializeData(formData),
   })
     .then(res => checkResponse(res))
     .then(res => res.json())
-    .catch(error => { throw (error) })
+    .catch(error => {
+      throw error
+    })
 }
 
-export function deleteInstruments (id) {
+export function deleteInstruments(id) {
   return fetch(`${BASE_URL}/api/instruments/${id}`, {
-    method: 'DELETE'
+    method: "DELETE",
+  }).catch(error => {
+    throw error
   })
-    .catch(error => { throw (error) })
 }
 
-export function postInstrumentsMappings (instrumentId, formData) {
+export function postInstrumentsMappings(instrumentId, formData) {
   return fetch(`${BASE_URL}/api/instruments/${instrumentId}/mappings`, {
-    method: 'POST',
+    method: "POST",
     headers: {
-      'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8'
+      "Content-type": "application/x-www-form-urlencoded; charset=UTF-8",
     },
-    body: serializeData(formData)
+    body: serializeData(formData),
   })
     .then(res => checkResponse(res))
     .then(res => res.json())
-    .catch(error => { throw (error) })
+    .catch(error => {
+      throw error
+    })
 }
 
-export function deleteMappings (id) {
+export function deleteMappings(id) {
   return fetch(`${BASE_URL}/api/mappings/${id}`, {
-    method: 'DELETE'
+    method: "DELETE",
+  }).catch(error => {
+    throw error
   })
-    .catch(error => { throw (error) })
 }

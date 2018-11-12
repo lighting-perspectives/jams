@@ -1,4 +1,4 @@
-export function checkResponse (res) {
+export function checkResponse(res) {
   if (res.ok) {
     return res
   }
@@ -8,15 +8,15 @@ export function checkResponse (res) {
   })
 }
 
-export function serializeData (formData) {
-// eslint-disable-next-line no-undef
+export function serializeData(formData) {
+  // eslint-disable-next-line no-undef
   if (!(formData instanceof FormData)) {
     return formData
   }
 
-  let data = ''
+  let data = ""
   for (let entry of formData.entries()) {
-    data += entry[0] + '=' + entry[1] + '&'
+    data += entry[0] + "=" + entry[1] + "&"
   }
 
   // remove last '&' character

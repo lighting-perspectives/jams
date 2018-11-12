@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Message, TransitionablePortal } from 'semantic-ui-react'
-import { resetNewMapping } from '../../../../actions/instruments'
+import React, { Component } from "react"
+import { connect } from "react-redux"
+import { Message, TransitionablePortal } from "semantic-ui-react"
+import { resetNewMapping } from "../../../../actions/instruments"
 
 class MappingCreateSuccessMessage extends Component {
-  render () {
+  render() {
     const { newMapping } = this.props
 
     return (
@@ -14,13 +14,16 @@ class MappingCreateSuccessMessage extends Component {
       >
         <Message
           positive
-          style={{ left: '30%', position: 'fixed', top: '50%', zIndex: 1000 }}
+          style={{ left: "30%", position: "fixed", top: "50%", zIndex: 1000 }}
         >
           <Message.Header>
-            Instrument mapping created - {newMapping.mapping ? newMapping.mapping.instrumentId : ''}
+            Instrument mapping created -{" "}
+            {newMapping.mapping ? newMapping.mapping.instrumentId : ""}
           </Message.Header>
           <p>
-            The <strong>mapping</strong> {newMapping.mapping ? ' n°' + newMapping.mapping.id : ''} has been <strong>created</strong> successfully
+            The <strong>mapping</strong>{" "}
+            {newMapping.mapping ? " n°" + newMapping.mapping.id : ""} has been{" "}
+            <strong>created</strong> successfully
           </p>
         </Message>
       </TransitionablePortal>
@@ -28,16 +31,19 @@ class MappingCreateSuccessMessage extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    newMapping: state.instruments.newMapping
+    newMapping: state.instruments.newMapping,
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  resetNewMapping () {
+const mapDispatchToProps = dispatch => ({
+  resetNewMapping() {
     dispatch(resetNewMapping())
-  }
+  },
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(MappingCreateSuccessMessage)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MappingCreateSuccessMessage)

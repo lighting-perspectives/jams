@@ -1,18 +1,18 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { List, Loader } from 'semantic-ui-react'
+import React, { Component } from "react"
+import { connect } from "react-redux"
+import { List, Loader } from "semantic-ui-react"
 
-import { fetchInstruments } from '../../../actions/instruments'
-import InstrumentListItem from './InstrumentListItem'
-import { fetchSamples } from '../../../actions/sample'
+import { fetchInstruments } from "../../../actions/instruments"
+import InstrumentListItem from "./InstrumentListItem"
+import { fetchSamples } from "../../../actions/sample"
 
 class InstrumentList extends Component {
-  componentDidMount () {
+  componentDidMount() {
     this.props.fetchInstruments()
     this.props.fetchSamples()
   }
 
-  render () {
+  render() {
     const { instrumentList, sampleList } = this.props
 
     return (
@@ -30,20 +30,23 @@ class InstrumentList extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     instrumentList: state.instruments.instrumentList,
-    sampleList: state.samples.sampleList
+    sampleList: state.samples.sampleList,
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  fetchInstruments () {
+const mapDispatchToProps = dispatch => ({
+  fetchInstruments() {
     dispatch(fetchInstruments())
   },
-  fetchSamples () {
+  fetchSamples() {
     dispatch(fetchSamples())
-  }
+  },
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(InstrumentList)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(InstrumentList)

@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Message, TransitionablePortal } from 'semantic-ui-react'
+import React, { Component } from "react"
+import { connect } from "react-redux"
+import { Message, TransitionablePortal } from "semantic-ui-react"
 
-import { resetDeletedMapping } from '../../../../actions/instruments'
+import { resetDeletedMapping } from "../../../../actions/instruments"
 
 class MappingDeleteSuccessMessage extends Component {
-  render () {
+  render() {
     const { deletedMapping } = this.props
 
     return (
@@ -15,13 +15,13 @@ class MappingDeleteSuccessMessage extends Component {
       >
         <Message
           warning
-          style={{ left: '30%', position: 'fixed', top: '50%', zIndex: 1000 }}
+          style={{ left: "30%", position: "fixed", top: "50%", zIndex: 1000 }}
         >
-          <Message.Header>
-            Instrument mapping removed
-          </Message.Header>
+          <Message.Header>Instrument mapping removed</Message.Header>
           <p>
-            The <strong>instrument mapping</strong> {deletedMapping.mapping ? ' n°' + deletedMapping.mapping.id : ''} has been <strong>removed</strong> successfully
+            The <strong>instrument mapping</strong>{" "}
+            {deletedMapping.mapping ? " n°" + deletedMapping.mapping.id : ""}{" "}
+            has been <strong>removed</strong> successfully
           </p>
         </Message>
       </TransitionablePortal>
@@ -29,16 +29,19 @@ class MappingDeleteSuccessMessage extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    deletedMapping: state.instruments.deletedMapping
+    deletedMapping: state.instruments.deletedMapping,
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  resetDeletedMapping () {
+const mapDispatchToProps = dispatch => ({
+  resetDeletedMapping() {
     dispatch(resetDeletedMapping())
-  }
+  },
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(MappingDeleteSuccessMessage)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MappingDeleteSuccessMessage)

@@ -1,27 +1,34 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Button, Confirm } from 'semantic-ui-react'
+import React, { Component } from "react"
+import { connect } from "react-redux"
+import { Button, Confirm } from "semantic-ui-react"
 
-import { deleteMapping, deleteMappingOpenConfirm, resetDeletedMapping } from '../../../../actions/instruments'
+import {
+  deleteMapping,
+  deleteMappingOpenConfirm,
+  resetDeletedMapping,
+} from "../../../../actions/instruments"
 
 class MappingDeleteButton extends Component {
-  render () {
-    const {mapping, deletedMapping} = this.props
+  render() {
+    const { mapping, deletedMapping } = this.props
 
     return (
       <div>
-        <Button basic
-          icon='delete'
-          color='red'
-          size='mini'
-          floated='right'
+        <Button
+          basic
+          icon="delete"
+          color="red"
+          size="mini"
+          floated="right"
           loading={deletedMapping.loading}
           onClick={() => this.props.deleteMappingOpenConfirm(mapping)}
         />
         <Confirm
           open={deletedMapping.open}
-          header='Delete mapping'
-          content={`Are you sure you want to delete the mapping n°${deletedMapping.mapping ? 'n°' + deletedMapping.mapping.id : ''} ?`}
+          header="Delete mapping"
+          content={`Are you sure you want to delete the mapping n°${
+            deletedMapping.mapping ? "n°" + deletedMapping.mapping.id : ""
+          } ?`}
           onCancel={() => this.props.deleteMappingCloseConfirm()}
           onConfirm={() => this.props.deleteMapping(deletedMapping.mapping)}
         />
@@ -30,22 +37,25 @@ class MappingDeleteButton extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    deletedMapping: state.instruments.deletedMapping
+    deletedMapping: state.instruments.deletedMapping,
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  deleteMappingOpenConfirm (mapping) {
+const mapDispatchToProps = dispatch => ({
+  deleteMappingOpenConfirm(mapping) {
     dispatch(deleteMappingOpenConfirm(mapping))
   },
-  deleteMappingCloseConfirm () {
+  deleteMappingCloseConfirm() {
     dispatch(resetDeletedMapping())
   },
-  deleteMapping (mapping) {
+  deleteMapping(mapping) {
     dispatch(deleteMapping(mapping))
-  }
+  },
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(MappingDeleteButton)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MappingDeleteButton)

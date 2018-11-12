@@ -1,10 +1,8 @@
-import React from 'react'
-import InstrumentLayout from './InstrumentLayout'
+import React from "react"
+import InstrumentLayout from "./InstrumentLayout"
 
 const InstrumentPage = () => {
-  return (
-    <InstrumentLayout />
-  )
+  return <InstrumentLayout />
 }
 
 export default InstrumentPage

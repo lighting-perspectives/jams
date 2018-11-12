@@ -1,21 +1,37 @@
-import api from '../api'
+import api from "../api"
 import {
-  FETCH_INSTRUMENTS, FETCH_INSTRUMENTS_SUCCESS, FETCH_INSTRUMENTS_FAILURE,
-  CREATE_INSTRUMENT_OPEN_MODAL, CREATE_INSTRUMENT_CLOSE_MODAL,
-  DELETE_INSTRUMENT, DELETE_INSTRUMENT_SUCCESS, DELETE_INSTRUMENT_FAILURE,
+  FETCH_INSTRUMENTS,
+  FETCH_INSTRUMENTS_SUCCESS,
+  FETCH_INSTRUMENTS_FAILURE,
+  CREATE_INSTRUMENT_OPEN_MODAL,
+  CREATE_INSTRUMENT_CLOSE_MODAL,
+  DELETE_INSTRUMENT,
+  DELETE_INSTRUMENT_SUCCESS,
+  DELETE_INSTRUMENT_FAILURE,
   RESET_DELETED_INSTRUMENT,
-  NEW_MAPPING_OPEN_MODAL, NEW_MAPPING_CLOSE_MODAL,
-  CREATE_MAPPING, CREATE_MAPPING_SUCCESS, CREATE_MAPPING_FAILURE,
+  NEW_MAPPING_OPEN_MODAL,
+  NEW_MAPPING_CLOSE_MODAL,
+  CREATE_MAPPING,
+  CREATE_MAPPING_SUCCESS,
+  CREATE_MAPPING_FAILURE,
   RESET_NEW_MAPPING,
-  CREATE_INSTRUMENT_SUCCESS, CREATE_INSTRUMENT_FAILURE, CREATE_INSTRUMENT,
-  UPDATE_INSTRUMENT_OPEN_MODAL, UPDATE_INSTRUMENT_CLOSE_MODAL,
-  UPDATE_INSTRUMENT_SUCCESS, UPDATE_INSTRUMENT_FAILURE, UPDATE_INSTRUMENT,
+  CREATE_INSTRUMENT_SUCCESS,
+  CREATE_INSTRUMENT_FAILURE,
+  CREATE_INSTRUMENT,
+  UPDATE_INSTRUMENT_OPEN_MODAL,
+  UPDATE_INSTRUMENT_CLOSE_MODAL,
+  UPDATE_INSTRUMENT_SUCCESS,
+  UPDATE_INSTRUMENT_FAILURE,
+  UPDATE_INSTRUMENT,
   RESET_NEW_INSTRUMENT,
   RESET_UPDATED_INSTRUMENT,
-  DELETE_MAPPING, DELETE_MAPPING_SUCCESS, DELETE_MAPPING_FAILURE,
+  DELETE_MAPPING,
+  DELETE_MAPPING_SUCCESS,
+  DELETE_MAPPING_FAILURE,
   RESET_DELETED_MAPPING,
-  DELETE_MAPPING_OPEN_CONFIRM, DELETE_INSTRUMENT_OPEN_CONFIRM
-} from './types/instruments'
+  DELETE_MAPPING_OPEN_CONFIRM,
+  DELETE_INSTRUMENT_OPEN_CONFIRM,
+} from "./types/instruments"
 
 const MSG_TIMEOUT = 5000
 
@@ -23,31 +39,32 @@ const MSG_TIMEOUT = 5000
  *               INSTRUMENTS                *
  ********************************************/
 
-function fetchInstrumentsSuccess (samples) {
+function fetchInstrumentsSuccess(samples) {
   return {
     type: FETCH_INSTRUMENTS_SUCCESS,
-    payload: samples
+    payload: samples,
   }
 }
 
-function fetchInstrumentsFailure (error) {
+function fetchInstrumentsFailure(error) {
   return {
     type: FETCH_INSTRUMENTS_FAILURE,
-    payload: error
+    payload: error,
   }
 }
 
-function fetchInstrumentsLoading () {
+function fetchInstrumentsLoading() {
   return {
-    type: FETCH_INSTRUMENTS
+    type: FETCH_INSTRUMENTS,
   }
 }
 
-export function fetchInstruments () {
+export function fetchInstruments() {
   return dispatch => {
     dispatch(fetchInstrumentsLoading())
 
-    return api.getInstruments()
+    return api
+      .getInstruments()
       .then(instruments => {
         dispatch(fetchInstrumentsSuccess(instruments))
       })
@@ -61,49 +78,50 @@ export function fetchInstruments () {
  *            CREATE INSTRUMENT             *
  ********************************************/
 
-export function createInstrumentOpenModal () {
+export function createInstrumentOpenModal() {
   return {
-    type: CREATE_INSTRUMENT_OPEN_MODAL
+    type: CREATE_INSTRUMENT_OPEN_MODAL,
   }
 }
 
-export function createInstrumentCloseModal () {
+export function createInstrumentCloseModal() {
   return {
-    type: CREATE_INSTRUMENT_CLOSE_MODAL
+    type: CREATE_INSTRUMENT_CLOSE_MODAL,
   }
 }
 
-function createInstrumentLoading () {
+function createInstrumentLoading() {
   return {
-    type: CREATE_INSTRUMENT
+    type: CREATE_INSTRUMENT,
   }
 }
 
-function createInstrumentSuccess (instrument) {
+function createInstrumentSuccess(instrument) {
   return {
     type: CREATE_INSTRUMENT_SUCCESS,
-    payload: instrument
+    payload: instrument,
   }
 }
 
-function createInstrumentFailure (error) {
+function createInstrumentFailure(error) {
   return {
     type: CREATE_INSTRUMENT_FAILURE,
-    payload: error
+    payload: error,
   }
 }
 
-export function resetNewInstrument () {
+export function resetNewInstrument() {
   return {
-    type: RESET_NEW_INSTRUMENT
+    type: RESET_NEW_INSTRUMENT,
   }
 }
 
-export function createInstrument (formData) {
-  return function (dispatch) {
+export function createInstrument(formData) {
+  return function(dispatch) {
     dispatch(createInstrumentLoading())
 
-    return api.postInstruments(formData)
+    return api
+      .postInstruments(formData)
       .then(instrument => {
         dispatch(createInstrumentSuccess(instrument))
       })
@@ -118,7 +136,7 @@ export function createInstrument (formData) {
         }, MSG_TIMEOUT)
       })
       .catch(error => {
-        console.log('error', error)
+        console.log("error", error)
         dispatch(createInstrumentFailure(error))
       })
   }
@@ -128,50 +146,51 @@ export function createInstrument (formData) {
  *            UPDATE INSTRUMENT             *
  ********************************************/
 
-export function updateInstrumentOpenModal (instrument) {
+export function updateInstrumentOpenModal(instrument) {
   return {
     type: UPDATE_INSTRUMENT_OPEN_MODAL,
-    payload: instrument
+    payload: instrument,
   }
 }
 
-export function updateInstrumentCloseModal () {
+export function updateInstrumentCloseModal() {
   return {
-    type: UPDATE_INSTRUMENT_CLOSE_MODAL
+    type: UPDATE_INSTRUMENT_CLOSE_MODAL,
   }
 }
 
-function updateInstrumentSuccess (instrument) {
+function updateInstrumentSuccess(instrument) {
   return {
     type: UPDATE_INSTRUMENT_SUCCESS,
-    payload: instrument
+    payload: instrument,
   }
 }
 
-function updateInstrumentFailure (error) {
+function updateInstrumentFailure(error) {
   return {
     type: UPDATE_INSTRUMENT_FAILURE,
-    payload: error
+    payload: error,
   }
 }
 
-function updateInstrumentLoading () {
+function updateInstrumentLoading() {
   return {
-    type: UPDATE_INSTRUMENT
+    type: UPDATE_INSTRUMENT,
   }
 }
 
-export function resetUpdatedInstrument () {
+export function resetUpdatedInstrument() {
   return {
-    type: RESET_UPDATED_INSTRUMENT
+    type: RESET_UPDATED_INSTRUMENT,
   }
 }
 
-export function updateInstrument (id, formData) {
-  return function (dispatch) {
+export function updateInstrument(id, formData) {
+  return function(dispatch) {
     dispatch(updateInstrumentLoading())
 
-    return api.putInstruments(id, formData)
+    return api
+      .putInstruments(id, formData)
       .then(instrument => {
         dispatch(updateInstrumentSuccess(instrument))
       })
@@ -186,7 +205,7 @@ export function updateInstrument (id, formData) {
         }, MSG_TIMEOUT)
       })
       .catch(error => {
-        console.log('error', error)
+        console.log("error", error)
         dispatch(updateInstrumentFailure(error))
       })
   }
@@ -196,44 +215,45 @@ export function updateInstrument (id, formData) {
  *            DELETE INSTRUMENT             *
  ********************************************/
 
-export function deleteInstrumentOpenConfirm (instrument) {
+export function deleteInstrumentOpenConfirm(instrument) {
   return {
     type: DELETE_INSTRUMENT_OPEN_CONFIRM,
-    payload: instrument
+    payload: instrument,
   }
 }
 
-export function deleteInstrumentLoading () {
+export function deleteInstrumentLoading() {
   return {
-    type: DELETE_INSTRUMENT
+    type: DELETE_INSTRUMENT,
   }
 }
 
-export function deleteInstrumentSuccess (instrument) {
+export function deleteInstrumentSuccess(instrument) {
   return {
     type: DELETE_INSTRUMENT_SUCCESS,
-    payload: instrument
+    payload: instrument,
   }
 }
 
-export function deleteInstrumentFailure (error) {
+export function deleteInstrumentFailure(error) {
   return {
     type: DELETE_INSTRUMENT_FAILURE,
-    payload: error
+    payload: error,
   }
 }
 
-export function resetDeletedInstrument () {
+export function resetDeletedInstrument() {
   return {
-    type: RESET_DELETED_INSTRUMENT
+    type: RESET_DELETED_INSTRUMENT,
   }
 }
 
-export function deleteInstrument (instrument) {
+export function deleteInstrument(instrument) {
   return dispatch => {
     deleteInstrumentLoading()
 
-    return api.deleteInstruments(instrument.id)
+    return api
+      .deleteInstruments(instrument.id)
       .then(() => {
         dispatch(deleteInstrumentSuccess(instrument))
       })
@@ -254,50 +274,51 @@ export function deleteInstrument (instrument) {
  *              CREATE MAPPING              *
  ********************************************/
 
-export function createMappingOpenModal (instrumentId) {
+export function createMappingOpenModal(instrumentId) {
   return {
     type: NEW_MAPPING_OPEN_MODAL,
-    payload: instrumentId
+    payload: instrumentId,
   }
 }
 
-export function createMappingCloseModal (instrumentId) {
+export function createMappingCloseModal(instrumentId) {
   return {
     type: NEW_MAPPING_CLOSE_MODAL,
-    payload: instrumentId
+    payload: instrumentId,
   }
 }
 
-export function createMappingLoading () {
+export function createMappingLoading() {
   return {
-    type: CREATE_MAPPING
+    type: CREATE_MAPPING,
   }
 }
-export function createMappingSuccess (instrumentId, mapping) {
+export function createMappingSuccess(instrumentId, mapping) {
   return {
     type: CREATE_MAPPING_SUCCESS,
-    payload: { mapping, instrumentId }
+    payload: { mapping, instrumentId },
   }
 }
 
-export function createMappingFailure (error) {
+export function createMappingFailure(error) {
   return {
     type: CREATE_MAPPING_FAILURE,
-    payload: error
+    payload: error,
   }
 }
 
-export function resetNewMapping () {
+export function resetNewMapping() {
   return {
-    type: RESET_NEW_MAPPING
+    type: RESET_NEW_MAPPING,
   }
 }
 
-export function createMapping (instrumentId, formData) {
-  return function (dispatch) {
+export function createMapping(instrumentId, formData) {
+  return function(dispatch) {
     dispatch(createMappingLoading())
 
-    return api.postInstrumentsMappings(instrumentId, formData)
+    return api
+      .postInstrumentsMappings(instrumentId, formData)
       .then(mapping => {
         dispatch(createMappingSuccess(instrumentId, mapping))
       })
@@ -321,44 +342,45 @@ export function createMapping (instrumentId, formData) {
  *              DELETE MAPPING              *
  ********************************************/
 
-export function deleteMappingOpenConfirm (mapping) {
+export function deleteMappingOpenConfirm(mapping) {
   return {
     type: DELETE_MAPPING_OPEN_CONFIRM,
-    payload: mapping
+    payload: mapping,
   }
 }
 
-export function deleteMappingLoading () {
+export function deleteMappingLoading() {
   return {
-    type: DELETE_MAPPING
+    type: DELETE_MAPPING,
   }
 }
 
-export function deleteMappingSuccess (instrument) {
+export function deleteMappingSuccess(instrument) {
   return {
     type: DELETE_MAPPING_SUCCESS,
-    payload: instrument
+    payload: instrument,
   }
 }
 
-export function deleteMappingFailure (error) {
+export function deleteMappingFailure(error) {
   return {
     type: DELETE_MAPPING_FAILURE,
-    payload: error
+    payload: error,
   }
 }
 
-export function resetDeletedMapping () {
+export function resetDeletedMapping() {
   return {
-    type: RESET_DELETED_MAPPING
+    type: RESET_DELETED_MAPPING,
   }
 }
 
-export function deleteMapping (mapping) {
+export function deleteMapping(mapping) {
   return dispatch => {
     deleteMappingLoading()
 
-    return api.deleteMappings(mapping.id)
+    return api
+      .deleteMappings(mapping.id)
       .then(() => {
         dispatch(deleteMappingSuccess(mapping))
       })

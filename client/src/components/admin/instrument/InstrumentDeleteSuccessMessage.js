@@ -1,11 +1,11 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Message, TransitionablePortal } from 'semantic-ui-react'
+import React, { Component } from "react"
+import { connect } from "react-redux"
+import { Message, TransitionablePortal } from "semantic-ui-react"
 
-import { resetDeletedInstrument } from '../../../actions/instruments'
+import { resetDeletedInstrument } from "../../../actions/instruments"
 
 class InstrumentDeleteSuccessMessage extends Component {
-  render () {
+  render() {
     const { deletedInstrument } = this.props
 
     return (
@@ -15,13 +15,20 @@ class InstrumentDeleteSuccessMessage extends Component {
       >
         <Message
           warning
-          style={{ left: '30%', position: 'fixed', top: '50%', zIndex: 1000 }}
+          style={{ left: "30%", position: "fixed", top: "50%", zIndex: 1000 }}
         >
           <Message.Header>
-            Instrument removed - {deletedInstrument.instrument ? deletedInstrument.instrument.label : ''}
+            Instrument removed -{" "}
+            {deletedInstrument.instrument
+              ? deletedInstrument.instrument.label
+              : ""}
           </Message.Header>
           <p>
-            The <strong>instrument</strong> {deletedInstrument.instrument ? ' n°' + deletedInstrument.instrument.id : ''} has been <strong>removed</strong> successfully
+            The <strong>instrument</strong>{" "}
+            {deletedInstrument.instrument
+              ? " n°" + deletedInstrument.instrument.id
+              : ""}{" "}
+            has been <strong>removed</strong> successfully
           </p>
         </Message>
       </TransitionablePortal>
@@ -29,16 +36,19 @@ class InstrumentDeleteSuccessMessage extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    deletedInstrument: state.instruments.deletedInstrument
+    deletedInstrument: state.instruments.deletedInstrument,
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  resetDeletedInstrument () {
+const mapDispatchToProps = dispatch => ({
+  resetDeletedInstrument() {
     dispatch(resetDeletedInstrument())
-  }
+  },
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(InstrumentDeleteSuccessMessage)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(InstrumentDeleteSuccessMessage)

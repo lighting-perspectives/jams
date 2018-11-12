@@ -1,40 +1,55 @@
-import api from '../api'
+import api from "../api"
 
 import {
-  FETCH_SAMPLES, FETCH_SAMPLES_SUCCESS, FETCH_SAMPLES_FAILURE,
-  SHOW_NEW_SAMPLE_MODAL, CLOSE_NEW_SAMPLE_MODAL,
-  CREATE_SAMPLE, CREATE_SAMPLE_SUCCESS, CREATE_SAMPLE_FAILURE, RESET_NEW_SAMPLE,
-  SHOW_EDIT_SAMPLE_MODAL, CLOSE_EDIT_SAMPLE_MODAL,
-  SELECT_SAMPLE_TO_UPDATE, UPDATE_SAMPLE, UPDATE_SAMPLE_SUCCESS, UPDATE_SAMPLE_FAILURE, RESET_UPDATED_SAMPLE,
-  DELETE_SAMPLE, DELETE_SAMPLE_SUCCESS, DELETE_SAMPLE_FAILURE, RESET_DELETED_SAMPLE
-} from './types/samples'
+  FETCH_SAMPLES,
+  FETCH_SAMPLES_SUCCESS,
+  FETCH_SAMPLES_FAILURE,
+  SHOW_NEW_SAMPLE_MODAL,
+  CLOSE_NEW_SAMPLE_MODAL,
+  CREATE_SAMPLE,
+  CREATE_SAMPLE_SUCCESS,
+  CREATE_SAMPLE_FAILURE,
+  RESET_NEW_SAMPLE,
+  SHOW_EDIT_SAMPLE_MODAL,
+  CLOSE_EDIT_SAMPLE_MODAL,
+  SELECT_SAMPLE_TO_UPDATE,
+  UPDATE_SAMPLE,
+  UPDATE_SAMPLE_SUCCESS,
+  UPDATE_SAMPLE_FAILURE,
+  RESET_UPDATED_SAMPLE,
+  DELETE_SAMPLE,
+  DELETE_SAMPLE_SUCCESS,
+  DELETE_SAMPLE_FAILURE,
+  RESET_DELETED_SAMPLE,
+} from "./types/samples"
 
-function fetchSamplesSuccess (samples) {
+function fetchSamplesSuccess(samples) {
   return {
     type: FETCH_SAMPLES_SUCCESS,
-    payload: samples
+    payload: samples,
   }
 }
 
-function fetchSamplesFailure (error) {
+function fetchSamplesFailure(error) {
   return {
     type: FETCH_SAMPLES_FAILURE,
-    payload: error
+    payload: error,
   }
 }
 
-function fetchSamplesLoading () {
+function fetchSamplesLoading() {
   return {
-    type: FETCH_SAMPLES
+    type: FETCH_SAMPLES,
     // payload: api.getSamples()
   }
 }
 
-export function fetchSamples () {
-  return function (dispatch) {
+export function fetchSamples() {
+  return function(dispatch) {
     dispatch(fetchSamplesLoading())
 
-    return api.getSamples()
+    return api
+      .getSamples()
       .then(samples => {
         dispatch(fetchSamplesSuccess(samples))
       })
@@ -44,43 +59,44 @@ export function fetchSamples () {
   }
 }
 
-export function createSampleShowModal () {
+export function createSampleShowModal() {
   return {
-    type: SHOW_NEW_SAMPLE_MODAL
+    type: SHOW_NEW_SAMPLE_MODAL,
   }
 }
 
-export function createSampleCloseModal () {
+export function createSampleCloseModal() {
   return {
-    type: CLOSE_NEW_SAMPLE_MODAL
+    type: CLOSE_NEW_SAMPLE_MODAL,
   }
 }
 
-function createSampleSuccess (sample) {
+function createSampleSuccess(sample) {
   return {
     type: CREATE_SAMPLE_SUCCESS,
-    payload: sample
+    payload: sample,
   }
 }
 
-function createSampleFailure (error) {
+function createSampleFailure(error) {
   return {
     type: CREATE_SAMPLE_FAILURE,
-    payload: error
+    payload: error,
   }
 }
 
-function createSampleLoading () {
+function createSampleLoading() {
   return {
-    type: CREATE_SAMPLE
+    type: CREATE_SAMPLE,
   }
 }
 
-export function createSample (formData) {
-  return function (dispatch) {
+export function createSample(formData) {
+  return function(dispatch) {
     dispatch(createSampleLoading())
 
-    return api.postSamples(formData)
+    return api
+      .postSamples(formData)
       .then(sample => {
         dispatch(createSampleSuccess(sample))
       })
@@ -91,63 +107,64 @@ export function createSample (formData) {
         dispatch(createSampleCloseModal())
       })
       .catch(error => {
-        console.log('error', error)
+        console.log("error", error)
         dispatch(createSampleFailure(error))
       })
   }
 }
 
-export function resetNewSample () {
+export function resetNewSample() {
   return {
-    type: RESET_NEW_SAMPLE
+    type: RESET_NEW_SAMPLE,
   }
 }
 
-export function updateSampleShowModal (sample) {
+export function updateSampleShowModal(sample) {
   return {
     type: SHOW_EDIT_SAMPLE_MODAL,
-    payload: sample
+    payload: sample,
   }
 }
 
-export function updateSampleCloseModal () {
+export function updateSampleCloseModal() {
   return {
-    type: CLOSE_EDIT_SAMPLE_MODAL
+    type: CLOSE_EDIT_SAMPLE_MODAL,
   }
 }
 
-function updateSampleSuccess (sample) {
+function updateSampleSuccess(sample) {
   return {
     type: UPDATE_SAMPLE_SUCCESS,
-    payload: sample
+    payload: sample,
   }
 }
 
-function updateSampleFailure (error) {
+function updateSampleFailure(error) {
   return {
     type: UPDATE_SAMPLE_FAILURE,
-    payload: error
+    payload: error,
   }
 }
 
-function updateSampleLoading () {
+function updateSampleLoading() {
   return {
-    type: UPDATE_SAMPLE
+    type: UPDATE_SAMPLE,
   }
 }
 
-export function selectSampleToUpdate (sample) {
+export function selectSampleToUpdate(sample) {
   return {
     type: SELECT_SAMPLE_TO_UPDATE,
-    payload: sample
+    payload: sample,
   }
 }
 
-export function updateSample (id, formData) {
+export function updateSample(id, formData) {
   return dispatch => {
     dispatch(updateSampleLoading())
 
-    return api.putSamples(id, formData)
+    return api
+      .putSamples(id, formData)
       .then(sample => {
         dispatch(updateSampleSuccess(sample))
       })
@@ -158,43 +175,44 @@ export function updateSample (id, formData) {
         dispatch(updateSampleCloseModal())
       })
       .catch(error => {
-        console.log('error', error)
+        console.log("error", error)
         dispatch(updateSampleFailure(error))
       })
   }
 }
 
-export function resetUpdatedSample () {
+export function resetUpdatedSample() {
   return {
-    type: RESET_UPDATED_SAMPLE
+    type: RESET_UPDATED_SAMPLE,
   }
 }
 
-function deleteSampleSuccess (data) {
+function deleteSampleSuccess(data) {
   return {
     type: DELETE_SAMPLE_SUCCESS,
-    payload: data
+    payload: data,
   }
 }
 
-function deleteSampleFailure (error) {
+function deleteSampleFailure(error) {
   return {
     type: DELETE_SAMPLE_FAILURE,
-    payload: error
+    payload: error,
   }
 }
 
-function deleteSampleLoading () {
+function deleteSampleLoading() {
   return {
-    type: DELETE_SAMPLE
+    type: DELETE_SAMPLE,
   }
 }
 
-export function deleteSample (data) {
+export function deleteSample(data) {
   return dispatch => {
     dispatch(deleteSampleLoading())
 
-    return api.deleteSamples(data)
+    return api
+      .deleteSamples(data)
       .then(() => {
         console.log(`Deleted ${data.id}`)
         dispatch(deleteSampleSuccess(data))
@@ -203,14 +221,14 @@ export function deleteSample (data) {
         dispatch(fetchSamples())
       })
       .catch(error => {
-        console.log('error', error)
+        console.log("error", error)
         dispatch(deleteSampleFailure(error))
       })
   }
 }
 
-export function resetDeletedSample () {
+export function resetDeletedSample() {
   return {
-    type: RESET_DELETED_SAMPLE
+    type: RESET_DELETED_SAMPLE,
   }
 }

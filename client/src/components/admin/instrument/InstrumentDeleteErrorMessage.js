@@ -1,12 +1,12 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Message, TransitionablePortal } from 'semantic-ui-react'
+import React, { Component } from "react"
+import { connect } from "react-redux"
+import { Message, TransitionablePortal } from "semantic-ui-react"
 
-import { resetDeletedInstrument } from '../../../actions/instruments'
+import { resetDeletedInstrument } from "../../../actions/instruments"
 
 class InstrumentDeleteErrorMessage extends Component {
-  render () {
-    const {deletedMapping} = this.props
+  render() {
+    const { deletedMapping } = this.props
 
     return (
       <TransitionablePortal
@@ -15,12 +15,10 @@ class InstrumentDeleteErrorMessage extends Component {
       >
         <Message
           negative
-          style={{left: '30%', position: 'fixed', top: '50%', zIndex: 1000}}
+          style={{ left: "30%", position: "fixed", top: "50%", zIndex: 1000 }}
         >
           <Message.Header>Error</Message.Header>
-          <p>
-            {deletedMapping.error ? deletedMapping.error.message : ''}
-          </p>
+          <p>{deletedMapping.error ? deletedMapping.error.message : ""}</p>
         </Message>
       </TransitionablePortal>
     )
@@ -29,14 +27,17 @@ class InstrumentDeleteErrorMessage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    deletedMapping: state.instruments.deletedMapping
+    deletedMapping: state.instruments.deletedMapping,
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  resetDeletedInstrument () {
+  resetDeletedInstrument() {
     dispatch(resetDeletedInstrument())
-  }
+  },
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(InstrumentDeleteErrorMessage)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(InstrumentDeleteErrorMessage)

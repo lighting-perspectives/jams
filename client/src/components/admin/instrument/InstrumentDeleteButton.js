@@ -1,49 +1,64 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Button, Confirm } from 'semantic-ui-react'
+import React, { Component } from "react"
+import { connect } from "react-redux"
+import { Button, Confirm } from "semantic-ui-react"
 
-import { deleteInstrument, deleteInstrumentOpenConfirm, resetDeletedInstrument } from '../../../actions/instruments'
+import {
+  deleteInstrument,
+  deleteInstrumentOpenConfirm,
+  resetDeletedInstrument,
+} from "../../../actions/instruments"
 
 class InstrumentDeleteButton extends Component {
-  render () {
-    const {instrument, deletedInstrument} = this.props
+  render() {
+    const { instrument, deletedInstrument } = this.props
 
     return (
       <div>
-        <Button basic
-          icon='delete'
-          color='red'
-          floated='right'
+        <Button
+          basic
+          icon="delete"
+          color="red"
+          floated="right"
           loading={deletedInstrument.loading}
           onClick={() => this.props.deleteInstrumentOpenConfirm(instrument)}
         />
-        <Confirm open={deletedInstrument.open}
-          header='Delete instrument'
-          content={`Are you sure you want to delete the instrument ${deletedInstrument.instrument ? 'n°' + deletedInstrument.instrument.id : ''} ?`}
+        <Confirm
+          open={deletedInstrument.open}
+          header="Delete instrument"
+          content={`Are you sure you want to delete the instrument ${
+            deletedInstrument.instrument
+              ? "n°" + deletedInstrument.instrument.id
+              : ""
+          } ?`}
           onCancel={() => this.props.deleteInstrumentCloseConfirm()}
-          onConfirm={() => this.props.deleteInstrument(deletedInstrument.instrument)}
+          onConfirm={() =>
+            this.props.deleteInstrument(deletedInstrument.instrument)
+          }
         />
       </div>
     )
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    deletedInstrument: state.instruments.deletedInstrument
+    deletedInstrument: state.instruments.deletedInstrument,
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  deleteInstrumentOpenConfirm (instrument) {
+const mapDispatchToProps = dispatch => ({
+  deleteInstrumentOpenConfirm(instrument) {
     dispatch(deleteInstrumentOpenConfirm(instrument))
   },
-  deleteInstrumentCloseConfirm () {
+  deleteInstrumentCloseConfirm() {
     dispatch(resetDeletedInstrument())
   },
-  deleteInstrument (instrument) {
+  deleteInstrument(instrument) {
     dispatch(deleteInstrument(instrument))
-  }
+  },
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(InstrumentDeleteButton)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(InstrumentDeleteButton)

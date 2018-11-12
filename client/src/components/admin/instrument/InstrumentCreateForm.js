@@ -1,13 +1,16 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Button, Form, Input, Modal } from 'semantic-ui-react'
+import React, { Component } from "react"
+import { connect } from "react-redux"
+import { Button, Form, Input, Modal } from "semantic-ui-react"
 
-import './InstrumentCreateForm.css'
-import { createInstrument, resetNewInstrument } from '../../../actions/instruments'
+import "./InstrumentCreateForm.css"
+import {
+  createInstrument,
+  resetNewInstrument,
+} from "../../../actions/instruments"
 
 class InstrumentCreateForm extends Component {
-  render () {
-    const {newInstrument} = this.props
+  render() {
+    const { newInstrument } = this.props
 
     return (
       <Modal
@@ -15,23 +18,24 @@ class InstrumentCreateForm extends Component {
         open={newInstrument.open}
         onClose={this.props.resetNewInstrument}
       >
-        <Modal.Header as='h1'>New Instrument</Modal.Header>
+        <Modal.Header as="h1">New Instrument</Modal.Header>
         <Modal.Content>
           <p>
-            Fields with <span style={{color: '#db2828'}}>*</span> are mandatory
+            Fields with <span style={{ color: "#db2828" }}>*</span> are
+            mandatory
           </p>
 
           <Form onSubmit={this.props.handleInstrumentCreateSubmit}>
             <Form.Field required>
-              <label htmlFor='label'>Label</label>
-              <Input type='text' name='label' placeholder='Instrument label' />
+              <label htmlFor="label">Label</label>
+              <Input type="text" name="label" placeholder="Instrument label" />
             </Form.Field>
             <Button
               positive
-              icon='add'
-              content='Create Instrument'
-              labelPosition='right'
-              type='submit'
+              icon="add"
+              content="Create Instrument"
+              labelPosition="right"
+              type="submit"
               loading={newInstrument.loading}
             />
           </Form>
@@ -43,12 +47,12 @@ class InstrumentCreateForm extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    newInstrument: state.instruments.newInstrument
+    newInstrument: state.instruments.newInstrument,
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  handleInstrumentCreateSubmit (event) {
+  handleInstrumentCreateSubmit(event) {
     event.preventDefault()
 
     let form = event.target
@@ -58,9 +62,12 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
     // eslint-disable-next-line no-undef
     dispatch(createInstrument(formData))
   },
-  resetNewInstrument () {
+  resetNewInstrument() {
     dispatch(resetNewInstrument())
-  }
+  },
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(InstrumentCreateForm)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(InstrumentCreateForm)

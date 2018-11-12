@@ -1,12 +1,12 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Message, TransitionablePortal } from 'semantic-ui-react'
+import React, { Component } from "react"
+import { connect } from "react-redux"
+import { Message, TransitionablePortal } from "semantic-ui-react"
 
-import { resetNewInstrument } from '../../../actions/instruments'
+import { resetNewInstrument } from "../../../actions/instruments"
 
 class InstrumentCreateErrorMessage extends Component {
-  render () {
-    const {newInstrument} = this.props
+  render() {
+    const { newInstrument } = this.props
 
     return (
       <TransitionablePortal
@@ -15,12 +15,10 @@ class InstrumentCreateErrorMessage extends Component {
       >
         <Message
           negative
-          style={{left: '30%', position: 'fixed', top: '50%', zIndex: 1000}}
+          style={{ left: "30%", position: "fixed", top: "50%", zIndex: 1000 }}
         >
           <Message.Header>Error</Message.Header>
-          <p>
-            {newInstrument.error ? newInstrument.error.message : ''}
-          </p>
+          <p>{newInstrument.error ? newInstrument.error.message : ""}</p>
         </Message>
       </TransitionablePortal>
     )
@@ -29,14 +27,17 @@ class InstrumentCreateErrorMessage extends Component {
 
 const mapStateToProps = (state, ownProps) => {
   return {
-    newInstrument: state.instruments.newInstrument
+    newInstrument: state.instruments.newInstrument,
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  resetNewInstrument () {
+  resetNewInstrument() {
     dispatch(resetNewInstrument())
-  }
+  },
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(InstrumentCreateErrorMessage)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(InstrumentCreateErrorMessage)

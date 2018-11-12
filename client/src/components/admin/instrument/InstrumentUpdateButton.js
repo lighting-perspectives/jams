@@ -1,17 +1,17 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import { Button } from 'semantic-ui-react'
+import React, { Component } from "react"
+import { connect } from "react-redux"
+import { Button } from "semantic-ui-react"
 
-import { updateInstrumentOpenModal } from '../../../actions/instruments'
+import { updateInstrumentOpenModal } from "../../../actions/instruments"
 
 class InstrumentUpdateButton extends Component {
-  render () {
-    const {instrument} = this.props
+  render() {
+    const { instrument } = this.props
 
     return (
       <Button
-        icon='add'
-        floated='right'
+        icon="add"
+        floated="right"
         loading={this.props.updatedInstrument.loading}
         onClick={() => this.props.updateInstrumentShowModal(instrument)}
       />
@@ -19,16 +19,19 @@ class InstrumentUpdateButton extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
-    updatedInstrument: state.instruments.updatedInstrument
+    updatedInstrument: state.instruments.updatedInstrument,
   }
 }
 
-const mapDispatchToProps = (dispatch) => ({
-  updateInstrumentShowModal (instrument) {
+const mapDispatchToProps = dispatch => ({
+  updateInstrumentShowModal(instrument) {
     dispatch(updateInstrumentOpenModal(instrument))
-  }
+  },
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(InstrumentUpdateButton)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(InstrumentUpdateButton)
