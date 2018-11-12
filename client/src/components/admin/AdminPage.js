@@ -1,35 +1,21 @@
-import React from 'react'
-import { Container, Menu } from 'semantic-ui-react'
-import { Link, Route } from 'react-router-dom'
-import SamplePage from './sample/SamplePage'
-import AdminHomePage from './AdminHomePage'
-import InstrumentPage from './instrument/InstrumentPage'
+import React from "react"
+import { Menu } from "semantic-ui-react"
+import { Link } from "@reach/router"
 
-const AdminPage = ({match, location}) => {
+const AdminPage = ({ children }) => {
   return (
-    <Container style={{marginTop: '5em'}}>
+    <div className="container ui" style={{ marginTop: "5em" }}>
       <Menu secondary>
-        <Menu.Item
-          as={Link}
-          to={`${match.url}/samples`}
-          active={/^\/admin\/samples$/.test(location.pathname)}
-        >
-        Samples
+        <Menu.Item as={Link} to="samples">
+          Samples
         </Menu.Item>
-        <Menu.Item
-          as={Link}
-          to={`${match.url}/instruments`}
-          active={/^\/admin\/instruments$/.test(location.pathname)}
-        >
-        Instruments
+        <Menu.Item as={Link} to="instruments">
+          Instruments
         </Menu.Item>
       </Menu>
 
-      <Route path={`${match.url}/samples`} component={SamplePage} />
-      <Route path={`${match.url}/instruments`} component={InstrumentPage} />
-      <Route exact path={match.url} component={AdminHomePage} />
-
-    </Container>
+      {children}
+    </div>
   )
 }
 

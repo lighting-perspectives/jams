@@ -1,22 +1,29 @@
-import React from 'react'
-import { Route } from 'react-router-dom'
+import React from "react"
+import { Router } from "@reach/router"
 
-import MainHeader from './components/MainHeader'
-
-import Home from './components/Home'
-import Dashboard from './components/Dashboard'
-import Session from './components/Session'
-import AdminPage from './components/admin/AdminPage'
+import MainHeader from "./components/MainHeader"
+import Home from "./components/Home"
+import Dashboard from "./components/Dashboard"
+import Session from "./components/Session"
+import AdminPage from "./components/admin/AdminPage"
+import SamplePage from "./components/admin/sample/SamplePage"
+import InstrumentPage from "./components/admin/instrument/InstrumentPage"
+import AdminHomePage from "./components/admin/AdminHomePage"
 
 const App = () => (
   <div>
     <MainHeader />
 
-    <Route exact path='/' component={Home} />
-    <Route path='/dashboard' component={Dashboard} />
-    <Route path='/session' component={Session} />
-    <Route path='/admin' component={AdminPage} />
-
+    <Router>
+      <Home path="/" />
+      <Dashboard path="dashboard" />
+      <Session path="session" />
+      <AdminPage path="admin">
+        <SamplePage path="samples" />
+        <InstrumentPage path="instruments" />
+        <AdminHomePage path="/" />
+      </AdminPage>
+    </Router>
   </div>
 )
 
