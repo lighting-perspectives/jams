@@ -4,3 +4,4 @@
 
 docker/db/data
 /server/test/data/audio/
+/node_modules

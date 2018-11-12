@@ -1,0 +1,9 @@
+{
+  "devDependencies": {
+    "prettier": "^1.15.2"
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "semi": false
+  }
+}
